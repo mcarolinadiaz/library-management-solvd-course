@@ -2,6 +2,11 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+lib/
+!**/src/log4j2.xml
+src/main/resources/log4j2.xml
+app.log
+.idea/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
