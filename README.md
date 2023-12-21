@@ -19,6 +19,16 @@ This design provides a foundation for a library management system with various r
 - 5 statements with left, right, inner, outer joins.
 - 7 statements with aggregate functions and group by and without having.
 - 7 statements with aggregate functions and group by and with having.
+- Solution:
+    - Create a database schema using Mysql Workbench for the new hierarchy, it's represented by libraryManagementSystem_hierarchy.mwb that is the schema created by workbench and libraryManagementSystem_schema.sql in sql code.
+    - libraryManagementSystem_insertions.sql: 10 statements for insertion.
+    - libraryManagementSystem_delete.sql: 10 statements for deletions. 
+    - libraryManagementSystem_update.sql: 10 statements for updating. 
+    - libraryManagementSystem_alter_table.sql: 5 alter table.
+    - libraryManagementSystem_aggregate_fun.sql: 7 statements with aggregate functions and group by and without having.
+    - libraryManagementSystem_joins.sql: 5 statements with left, right, inner, outer joins.
+    - libraryManagementSystem_big_join.sql:  1 big statement to join all tables in the database.
+    - libraryManagementSystem_aggregate_fun_having.sql: 7 statements with aggregate functions and group by and with having.
 
 3- 
 - Read the following articles:
