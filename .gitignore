@@ -7,6 +7,7 @@ lib/
 src/main/resources/log4j2.xml
 app.log
 .idea/
+src/main/resources/config.properties
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
