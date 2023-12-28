@@ -1,13 +1,15 @@
 package com.solvd.library.persistence;
 
+import com.solvd.library.domain.Book;
 import com.solvd.library.domain.Category;
+import com.solvd.library.domain.Employee;
 
+import java.sql.Connection;
 import java.util.List;
 
-public interface CategoryRepository {
-    Category findById(int id);
-    List<Category> findAll();
-    void save(Category category);
-    void update(Category category);
-    void delete(int id);
+public interface CategoryRepository extends GenericDAO<Category> {
+    Category findById(Long id, Connection connection);
+    List<Category> findAll(Connection connection);
+    void create(Category category, Connection connection);
+    void update(Category category, Connection connection);
 }
