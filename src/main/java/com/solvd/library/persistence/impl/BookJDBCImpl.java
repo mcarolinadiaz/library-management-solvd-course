@@ -10,28 +10,31 @@ import com.solvd.library.persistence.BookRepoRelationalReservation;
 import com.solvd.library.persistence.BookRepository;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class BookJDBCImpl implements BookRepository, BookRepoRelationalReservation, BookRepoRelationalCategory, BookRepoRelationalPublisher {
 
 
     @Override
-    public Book findById(Long id, Connection connection) {
+    public Book findById(Long id) {
         return null;
     }
 
     @Override
-    public List<Book> findAll(Connection connection) {
+    public List<Book> findAll() {
         return null;
     }
 
     @Override
-    public void create(Book entity, Connection connection) {
+    public void create(Book entity) {
 
     }
 
     @Override
-    public void update(Book entity, Connection connection) {
+    public void update(Book entity) {
 
     }
 
