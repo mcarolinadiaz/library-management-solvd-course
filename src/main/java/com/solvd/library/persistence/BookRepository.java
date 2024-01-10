@@ -7,9 +7,9 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface BookRepository extends GenericDAO<Book> {
-    Book findById(Long id, Connection connection);
-    List<Book> findAll(Connection connection);
-    void create(Book entity, Connection connection);
-    void update(Book entity, Connection connection);
-    void delete(Long id, Connection connection);
+    Book findById(Long id);
+    List<Book> findAll();
+    void create(Book entity);
+    void update(Book entity);
+    void delete(Long id);
 }

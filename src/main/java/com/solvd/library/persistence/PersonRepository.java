@@ -5,9 +5,9 @@ import com.solvd.library.domain.Person;
 import java.sql.Connection;
 import java.util.List;
 
-public interface PersonRepository {
-    Person findById(Long id, Connection connection);
-    List<Person> findAll(Connection connection);
-    void create(Person person, Connection connection);
-    void update(Person person, Connection connection);
+public interface PersonRepository extends GenericDAO<Person>{
+    Person findById(Long id);
+    List<Person> findAll();
+    void create(Person person);
+    void update(Person person);
 }

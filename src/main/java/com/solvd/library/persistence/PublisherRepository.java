@@ -7,10 +7,10 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface PublisherRepository extends GenericDAO<Publisher>, ContainsEntity<Publisher, Book> {
-    Publisher findById(Long id, Connection connection);
-    List<Publisher> findAll(Connection connection);
-    void create(Publisher publisher, Connection connection);
-    void update(Publisher publisher, Connection connection);
+    Publisher findById(Long id);
+    List<Publisher> findAll();
+    void create(Publisher publisher);
+    void update(Publisher publisher);
     void addEntity(Publisher p, Book b);
     void deleteEntity(Publisher p, Book b);
 }

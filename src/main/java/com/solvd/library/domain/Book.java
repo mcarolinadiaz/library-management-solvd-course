@@ -1,5 +1,6 @@
 package com.solvd.library.domain;
 
+import java.util.Date;
 import java.util.List;
 
 public class Book {
@@ -7,33 +8,10 @@ public class Book {
     private Long id;
     private List<Comment> comments;
     private List<Loan> loans;
-    private Publisher publisher;
-    private Category category;
-    private Reservation reservation;
-
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
+    private Long publisherId;
+    private Long categoryId;
+    private Long reservationId;
+    private Date year;
 
     public Long getId() {
         return id;
@@ -49,5 +27,37 @@ public class Book {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getYear() {
+        return year;
+    }
+
+    public void setYear(Date year) {
+        this.year = year;
+    }
+
+    public Long getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(Long publisherId) {
+        this.publisherId = publisherId;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Long getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(Long reservationId) {
+        this.reservationId = reservationId;
     }
 }

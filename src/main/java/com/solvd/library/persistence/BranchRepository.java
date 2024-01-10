@@ -8,9 +8,9 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface BranchRepository extends GenericDAO<Branch>{
-    Branch findById(Long id, Connection connection);
-    List<Branch> findAll(Connection connection);
-    void create(Branch branch, Connection connection);
-    void update(Branch branch, Connection connection);
+    Branch findById(Long id);
+    List<Branch> findAll();
+    void create(Branch branch);
+    void update(Branch branch);
 
 }
