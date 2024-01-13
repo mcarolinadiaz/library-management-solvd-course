@@ -11,6 +11,6 @@ public interface UserRepository extends GenericDAO<User> {
     List<User> findAll();
     void create(User user, Long personId, Long reservationId);
     void update(User user, Long personId, Long reservationId);
-    void delete(Long user_id, Long person_id);
+    void delete(Long user_id);
 
 }
