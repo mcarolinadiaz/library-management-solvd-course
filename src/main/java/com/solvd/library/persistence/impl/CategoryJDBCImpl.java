@@ -1,6 +1,5 @@
 package com.solvd.library.persistence.impl;
 
-import com.solvd.library.domain.Book;
 import com.solvd.library.domain.Category;
 import com.solvd.library.persistence.CategoryRepository;
 import org.apache.logging.log4j.LogManager;

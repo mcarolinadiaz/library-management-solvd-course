@@ -93,13 +93,4 @@ public class PublisherJDBCImpl implements PublisherRepository {
         }
     }
 
-    @Override
-    public void addEntity(Publisher p, Book b) {
-
-    }
-
-    @Override
-    public void deleteEntity(Publisher p, Book b) {
-
-    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface BookRepository extends GenericDAO<Book> {
     Book findById(Long id);
     List<Book> findAll();
-    void create(Book entity);
-    void update(Book entity);
+    void create(Book entity, Long publisherId, Long categoryId, Long reservationId);
+    void update(Book entity, Long publisherId, Long categoryId, Long reservationId);
     void delete(Long id);
 }

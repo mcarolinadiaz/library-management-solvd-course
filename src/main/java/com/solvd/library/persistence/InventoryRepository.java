@@ -9,8 +9,8 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface InventoryRepository extends GenericDAO<Inventory> {
-    Inventory findById(Long id, Connection connection);
-    List<Inventory> findAll(Connection connection);
-    void create(Inventory inventory, Connection connection);
-    void update(Inventory inventory, Connection connection);
+    Inventory findById(Long id);
+    List<Inventory> findAll();
+    void create(Inventory inventory, Long branchId, Long bookId);
+    void update(Inventory inventory, Long branchId, Long bookId);
 }

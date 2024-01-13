@@ -8,6 +8,7 @@ public class Book {
     private Long id;
     private List<Comment> comments;
     private List<Loan> loans;
+    private List<Inventory> inventories;
     private Long publisherId;
     private Long categoryId;
     private Long reservationId;
@@ -59,5 +60,29 @@ public class Book {
 
     public void setReservationId(Long reservationId) {
         this.reservationId = reservationId;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Loan> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(List<Loan> loans) {
+        this.loans = loans;
+    }
+
+    public List<Inventory> getInventories() {
+        return inventories;
+    }
+
+    public void setInventories(List<Inventory> inventories) {
+        this.inventories = inventories;
     }
 }

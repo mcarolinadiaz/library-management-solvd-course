@@ -1,12 +1,6 @@
 package com.solvd.library.persistence.impl;
 
 import com.solvd.library.domain.Book;
-import com.solvd.library.domain.Category;
-import com.solvd.library.domain.Publisher;
-import com.solvd.library.domain.Reservation;
-import com.solvd.library.persistence.BookRepoRelationalCategory;
-import com.solvd.library.persistence.BookRepoRelationalPublisher;
-import com.solvd.library.persistence.BookRepoRelationalReservation;
 import com.solvd.library.persistence.BookRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookJDBCImpl implements BookRepository, BookRepoRelationalReservation, BookRepoRelationalCategory, BookRepoRelationalPublisher {
+public class BookJDBCImpl implements BookRepository {
     private static final Logger LOGGER = LogManager.getLogger(BookJDBCImpl.class);
     private static final String JDBC_URL = "";
     private static final String JDBC_USER = "";
@@ -68,14 +62,14 @@ public class BookJDBCImpl implements BookRepository, BookRepoRelationalReservati
     }
 
     @Override
-    public void create(Book book) {
+    public void create(Book book, Long publisherId, Long categoryId, Long reservationId) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
              PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
             statement.setString(1, book.getName());
             statement.setTimestamp(2, Timestamp.valueOf(book.getYear().toString()));
-            statement.setLong(3, book.getPublisherId());
-            statement.setLong(4, book.getCategoryId());
-            statement.setLong(5, book.getReservationId());
+            statement.setLong(3, publisherId);
+            statement.setLong(4, categoryId);
+            statement.setLong(5, reservationId);
             statement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -83,14 +77,14 @@ public class BookJDBCImpl implements BookRepository, BookRepoRelationalReservati
     }
 
     @Override
-    public void update(Book book) {
+    public void update(Book book, Long publisherId, Long categoryId, Long reservationId) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, book.getName());
             statement.setTimestamp(2, Timestamp.valueOf(book.getYear().toString()));
-            statement.setLong(3, book.getPublisherId());
-            statement.setLong(4, book.getCategoryId());
-            statement.setLong(5, book.getReservationId());
+            statement.setLong(3, publisherId);
+            statement.setLong(4, categoryId);
+            statement.setLong(5, reservationId);
             statement.setLong(6, book.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -107,33 +101,5 @@ public class BookJDBCImpl implements BookRepository, BookRepoRelationalReservati
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
-    }
-
-    public void linkEntities(Book b, Category c) {
-    }
-
-    @Override
-    public void unlinkEntities(Book b, Category c) {
-
-    }
-
-    @Override
-    public void linkEntities(Book b, Publisher p) {
-
-    }
-
-    @Override
-    public void unlinkEntities(Book b, Publisher p) {
-
-    }
-
-    @Override
-    public void linkEntities(Book b, Reservation r) {
-
-    }
-
-    @Override
-    public void unlinkEntities(Book b, Reservation r) {
-
     }
 }

@@ -1,6 +1,5 @@
 package com.solvd.library.persistence.impl;
 
-import com.solvd.library.Main;
 import com.solvd.library.domain.Author;
 import com.solvd.library.persistence.AuthorRepository;
 import org.apache.logging.log4j.LogManager;

@@ -8,8 +8,8 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface ReservationRepository extends GenericDAO<Reservation> {
-    Reservation findById(Long id, Connection connection);
-    List<Reservation> findAll(Connection connection);
-    void create(Reservation reservation, Connection connection);
-    void update(Reservation reservation, Connection connection);
+    Reservation findById(Long id);
+    List<Reservation> findAll();
+    void create(Reservation reservation);
+    void update(Reservation reservation);
 }
