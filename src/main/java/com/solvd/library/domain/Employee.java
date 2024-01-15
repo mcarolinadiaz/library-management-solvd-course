@@ -2,8 +2,8 @@ package com.solvd.library.domain;
 
 public class Employee {
     private Long id;
-    private Person person;
-    private Branch branch;
+    private Long personId;
+    private Long branchId;
     public Long getId() {
         return id;
     }
@@ -12,19 +12,19 @@ public class Employee {
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
+    public Long getPersonId() {
+        return personId;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPersonId(Long personId) {
+        this.personId = personId;
     }
 
-    public Branch getBranch() {
-        return branch;
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 }

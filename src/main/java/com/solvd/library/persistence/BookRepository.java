@@ -3,14 +3,13 @@ package com.solvd.library.persistence;
 import com.solvd.library.domain.Book;
 import com.solvd.library.domain.Publisher;
 
+import java.sql.Connection;
 import java.util.List;
 
-public interface BookRepository {
-    Book findById(int id);
+public interface BookRepository extends GenericDAO<Book> {
+    Book findById(Long id);
     List<Book> findAll();
-    void create(Book book);
-    void update(Book book);
-    void delete(int id);
-    void linkEntities(Book b, Publisher p);
-    void unlinkEntities(Book b, Publisher p);
+    void create(Book entity, Long publisherId, Long categoryId, Long reservationId);
+    void update(Book entity, Long publisherId, Long categoryId, Long reservationId);
+    void delete(Long id);
 }

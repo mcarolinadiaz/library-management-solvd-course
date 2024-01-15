@@ -1,0 +1,45 @@
+package com.solvd.library.service.impl;
+
+
+import com.solvd.library.domain.Employee;
+import com.solvd.library.persistence.EmployeeRepository;
+import com.solvd.library.persistence.impl.EmployeeJDBCImpl;
+import com.solvd.library.service.EmployeeService;
+
+import java.util.List;
+
+public class EmployeeServiceImpl implements EmployeeService {
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeServiceImpl() {
+        this.employeeRepository = new EmployeeJDBCImpl();
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    @Override
+    public Employee createEmployee(Employee employee, Long branchId, Long personId) {
+        employee.setId(null);
+        employeeRepository.create(employee, branchId, personId);
+        return employee;
+    }
+
+    @Override
+    public Employee updateEmployee(Employee employee, Long branchId, Long personId) {
+        employeeRepository.update(employee, branchId, personId);
+        return employee;
+    }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        employeeRepository.delete(id);
+    }
+}

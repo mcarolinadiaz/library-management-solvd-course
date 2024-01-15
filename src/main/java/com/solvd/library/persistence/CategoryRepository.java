@@ -4,10 +4,9 @@ import com.solvd.library.domain.Category;
 
 import java.util.List;
 
-public interface CategoryRepository {
-    Category findById(int id);
+public interface CategoryRepository extends GenericDAO<Category> {
+    Category findById(Long id);
     List<Category> findAll();
-    void save(Category category);
+    void create(Category category);
     void update(Category category);
-    void delete(int id);
 }
