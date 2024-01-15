@@ -59,6 +59,8 @@ public class PersonJDBCImpl implements PersonRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return null;
     }
@@ -75,6 +77,8 @@ public class PersonJDBCImpl implements PersonRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return persons;
     }
@@ -90,9 +94,12 @@ public class PersonJDBCImpl implements PersonRepository {
                     person.setId(generatedKeys.getLong(1));
                 }
             }
+            LOGGER.info("create person:"+person);
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -106,6 +113,8 @@ public class PersonJDBCImpl implements PersonRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -117,6 +126,8 @@ public class PersonJDBCImpl implements PersonRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

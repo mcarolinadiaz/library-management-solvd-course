@@ -57,6 +57,8 @@ public class LoanJDBCImpl implements LoanRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -72,6 +74,8 @@ public class LoanJDBCImpl implements LoanRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return null;
     }
@@ -88,6 +92,8 @@ public class LoanJDBCImpl implements LoanRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return loans;
     }
@@ -108,6 +114,8 @@ public class LoanJDBCImpl implements LoanRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -123,6 +131,8 @@ public class LoanJDBCImpl implements LoanRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

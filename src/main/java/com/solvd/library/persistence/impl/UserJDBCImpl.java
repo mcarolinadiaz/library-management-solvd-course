@@ -52,6 +52,8 @@ public class UserJDBCImpl implements UserRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -67,6 +69,8 @@ public class UserJDBCImpl implements UserRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return null;
     }
@@ -83,6 +87,8 @@ public class UserJDBCImpl implements UserRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return users;
     }
@@ -101,6 +107,8 @@ public class UserJDBCImpl implements UserRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -114,6 +122,8 @@ public class UserJDBCImpl implements UserRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 

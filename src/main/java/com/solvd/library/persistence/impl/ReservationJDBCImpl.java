@@ -51,6 +51,8 @@ public class ReservationJDBCImpl implements ReservationRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -66,6 +68,8 @@ public class ReservationJDBCImpl implements ReservationRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return null;
     }
@@ -82,6 +86,8 @@ public class ReservationJDBCImpl implements ReservationRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return reservations;
     }
@@ -89,7 +95,7 @@ public class ReservationJDBCImpl implements ReservationRepository {
     @Override
     public void create(Reservation reservation) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setTimestamp(1, Timestamp.valueOf(reservation.getReservationDate().atStartOfDay()));
+            statement.setTimestamp(1, new java.sql.Timestamp(reservation.getReservationDate().getTime()));
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -99,18 +105,22 @@ public class ReservationJDBCImpl implements ReservationRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
     @Override
     public void update(Reservation reservation) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setTimestamp(1, Timestamp.valueOf(reservation.getReservationDate().atStartOfDay()));
+            statement.setTimestamp(1, Timestamp.valueOf(reservation.getReservationDate().toString()));
             statement.setLong(2, reservation.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

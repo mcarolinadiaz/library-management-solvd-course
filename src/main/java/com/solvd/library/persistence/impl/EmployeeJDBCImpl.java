@@ -59,6 +59,8 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return null;
     }
@@ -75,6 +77,8 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return employees;
     }
@@ -100,6 +104,8 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -113,6 +119,8 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -124,6 +132,8 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

@@ -9,11 +9,15 @@ import com.solvd.library.persistence.impl.ReservationJDBCImpl;
 import com.solvd.library.service.BookService;
 import com.solvd.library.service.ReservationService;
 import com.solvd.library.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReservationServiceImpl implements ReservationService {
+    private static final Logger LOGGER = LogManager.getLogger(ReservationServiceImpl.class);
+
     private final ReservationRepository reservationRepository;
     private final BookService bookService = new BookServiceImpl();
     private final UserService userService = new UserServiceImpl();
@@ -21,19 +25,20 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository = new ReservationJDBCImpl();
     }
     @Override
-    public Reservation getAuthorById(Long id) {
+    public Reservation getReservationById(Long id) {
         return reservationRepository.findById(id);
     }
 
     @Override
-    public List<Reservation> getAllAuthors() {
+    public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
     }
 
     @Override
-    public Reservation createAuthor(Reservation reservation) {
+    public Reservation createReservation(Reservation reservation) {
         reservation.setId(null);
         reservationRepository.create(reservation);
+        LOGGER.info(reservation.getId());
         if (reservation.getUsers() != null) {
             List<User> users = reservation.getUsers().stream()
                     .map(user -> userService.createUser(user, user.getPersonId(), user.getReservationId()))
@@ -50,13 +55,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation updateAuthor(Reservation reservation) {
+    public Reservation updateReservation(Reservation reservation) {
         reservationRepository.update(reservation);
         return reservation;
     }
 
     @Override
-    public void deleteAuthor(Long id) {
+    public void deleteReservation(Long id) {
         reservationRepository.delete(id);
     }
 }
