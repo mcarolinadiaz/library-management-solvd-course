@@ -1,14 +1,16 @@
 package com.solvd.library.persistence;
 
 import com.solvd.library.domain.*;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 public interface EmployeeRepository extends GenericDAO<Employee> {
-    Employee findById(Long id);
-    List<Employee> findAll();
-    void create(Employee employee, Long branchId, Long personId);
-    void update(Employee employee, Long branchId, Long personId);
-    void delete(Long employee_id);
+    Optional<Employee> findById(@Param("id") Long id);
+    Collection<Employee> findAll();
+    void create(@Param("employee") Employee employee);
+    void update(@Param("employee") Employee employee);
+    void delete(@Param("id") Long employee_id);
 
 }

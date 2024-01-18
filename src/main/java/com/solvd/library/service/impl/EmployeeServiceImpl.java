@@ -4,37 +4,41 @@ package com.solvd.library.service.impl;
 import com.solvd.library.domain.Employee;
 import com.solvd.library.persistence.EmployeeRepository;
 import com.solvd.library.persistence.impl.EmployeeJDBCImpl;
+import com.solvd.library.persistence.impl.EmployeeMybatisImpl;
 import com.solvd.library.service.EmployeeService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     public EmployeeServiceImpl() {
-        this.employeeRepository = new EmployeeJDBCImpl();
+        //this.employeeRepository = new EmployeeJDBCImpl();
+        this.employeeRepository = new EmployeeMybatisImpl();
     }
 
     @Override
-    public Employee getEmployeeById(Long id) {
+    public Optional<Employee> getEmployeeById(Long id) {
         return employeeRepository.findById(id);
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
+    public Collection<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
     @Override
-    public Employee createEmployee(Employee employee, Long branchId, Long personId) {
+    public Employee createEmployee(Employee employee) {
         employee.setId(null);
-        employeeRepository.create(employee, branchId, personId);
+        employeeRepository.create(employee);
         return employee;
     }
 
     @Override
-    public Employee updateEmployee(Employee employee, Long branchId, Long personId) {
-        employeeRepository.update(employee, branchId, personId);
+    public Employee updateEmployee(Employee employee) {
+        employeeRepository.update(employee);
         return employee;
     }
 

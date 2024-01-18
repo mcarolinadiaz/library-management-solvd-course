@@ -7,6 +7,7 @@ import com.solvd.library.persistence.impl.CommentJDBCImpl;
 import com.solvd.library.service.CommentService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
@@ -16,7 +17,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment getCommentById(Long id) {
+    public Optional<Comment> getCommentById(Long id) {
         return commentRepository.findById(id);
     }
 

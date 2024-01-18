@@ -1,15 +1,15 @@
 package com.solvd.library.persistence;
 
-import com.solvd.library.domain.Book;
 import com.solvd.library.domain.Reservation;
-import com.solvd.library.domain.User;
+import org.apache.ibatis.annotations.Param;
 
-import java.sql.Connection;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReservationRepository extends GenericDAO<Reservation> {
-    Reservation findById(Long id);
-    List<Reservation> findAll();
-    void create(Reservation reservation);
-    void update(Reservation reservation);
+    Optional<Reservation> findById(@Param("id") Long id);
+    Collection<Reservation> findAll();
+    void create(@Param("reservation") Reservation reservation);
+    void update(@Param("reservation") Reservation reservation);
 }

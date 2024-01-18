@@ -4,24 +4,28 @@ package com.solvd.library.service.impl;
 import com.solvd.library.domain.Author;
 import com.solvd.library.persistence.AuthorRepository;
 import com.solvd.library.persistence.impl.AuthorJDBCImpl;
+import com.solvd.library.persistence.impl.AuthorMybatisImpl;
 import com.solvd.library.service.AuthorService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     public AuthorServiceImpl() {
-        this.authorRepository = new AuthorJDBCImpl();
+        //this.authorRepository = new AuthorJDBCImpl();
+        this.authorRepository = new AuthorMybatisImpl();
     }
 
     @Override
-    public Author getAuthorById(Long id) {
+    public Optional<Author> getAuthorById(Long id) {
         return authorRepository.findById(id);
     }
 
     @Override
-    public List<Author> getAllAuthors() {
+    public Collection<Author> getAllAuthors() {
         return authorRepository.findAll();
     }
 

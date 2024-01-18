@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the CommentRepository interface.
@@ -49,19 +50,19 @@ public class CommentJDBCImpl implements CommentRepository {
     }
 
     @Override
-    public Comment findById(Long id) {
+    public Optional<Comment> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_comment = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractCommentFromResultSet(resultSet);
+                    return Optional.of(extractCommentFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

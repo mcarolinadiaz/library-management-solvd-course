@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the LoanRepository interface.
@@ -63,12 +64,12 @@ public class LoanJDBCImpl implements LoanRepository {
     }
 
     @Override
-    public Loan findById(Long id) {
+    public Optional<Loan> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_loan = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractLoanFromResultSet(resultSet);
+                    return Optional.of(extractLoanFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -77,7 +78,7 @@ public class LoanJDBCImpl implements LoanRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

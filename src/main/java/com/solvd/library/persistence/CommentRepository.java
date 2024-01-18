@@ -3,13 +3,15 @@ package com.solvd.library.persistence;
 
 
 import com.solvd.library.domain.Comment;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CommentRepository extends GenericDAO<Comment> {
-    Comment findById(Long id);
+    Optional<Comment> findById(@Param("id") Long id);
     List<Comment> findAll();
-    void create(Comment comment, Long bookId, Long userId);
+    void create(@Param("comment") Comment comment, @Param("bookId") Long bookId, @Param("userId") Long userId);
 
-    void update(Comment comment, Long bookId, Long userId);
+    void update(@Param("comment") Comment comment, @Param("bookId") Long bookId, @Param("userId") Long userId);
 }

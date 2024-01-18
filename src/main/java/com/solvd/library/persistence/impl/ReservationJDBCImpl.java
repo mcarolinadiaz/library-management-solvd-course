@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the ReservationRepository interface.
@@ -57,12 +58,12 @@ public class ReservationJDBCImpl implements ReservationRepository {
     }
 
     @Override
-    public Reservation findById(Long id) {
+    public Optional<Reservation> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_reservation = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractReservationFromResultSet(resultSet);
+                    return Optional.of(extractReservationFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -71,7 +72,7 @@ public class ReservationJDBCImpl implements ReservationRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

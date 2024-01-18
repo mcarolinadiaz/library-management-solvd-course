@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the InventoryRepository interface.
@@ -49,12 +50,12 @@ public class InventoryJDBCImpl implements InventoryRepository {
     }
 
     @Override
-    public Inventory findById(Long id) {
+    public Optional<Inventory> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_inventory = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractInventoryFromResultSet(resultSet);
+                    return Optional.of(extractInventoryFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -63,7 +64,7 @@ public class InventoryJDBCImpl implements InventoryRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

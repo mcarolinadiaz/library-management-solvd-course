@@ -12,7 +12,9 @@ import com.solvd.library.service.CommentService;
 import com.solvd.library.service.InventoryService;
 import com.solvd.library.service.LoanService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BookServiceImpl implements BookService {
@@ -25,12 +27,14 @@ public class BookServiceImpl implements BookService {
         this.bookRepository = new BookJDBCImpl();
     }
 
-    /** Retrieve a book by its ID from the repository.
+    /**
+     * Retrieve a book by its ID from the repository.
+     *
      * @param id
      * @return
      */
     @Override
-    public Book getBookById(Long id) {
+    public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
     }
 
@@ -38,22 +42,19 @@ public class BookServiceImpl implements BookService {
      * @return
      */
     @Override
-    public List<Book> getAllBooks() {
+    public Collection<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
     /** Create the book in the repository and retrieve it.
      * Create and set comments, loans, and inventories associated with the book.
      * @param book
-     * @param publisherId
-     * @param categoryId
-     * @param reservationId
      * @return
      */
     @Override
-    public Book createBook(Book book, Long publisherId, Long categoryId, Long reservationId) {
+    public Book createBook(Book book) {
         book.setId(null);
-        bookRepository.create(book, publisherId, categoryId, reservationId);
+        bookRepository.create(book);
 
         if (book.getComments() != null) {
             List<Comment> comments = book.getComments().stream()
@@ -78,14 +79,11 @@ public class BookServiceImpl implements BookService {
 
     /** Update the book in the repository and retrieve it.
      * @param book
-     * @param publisherId
-     * @param categoryId
-     * @param reservationId
      * @return
      */
     @Override
-    public Book updateBook(Book book, Long publisherId, Long categoryId, Long reservationId) {
-        bookRepository.update(book, publisherId, categoryId, reservationId);
+    public Book updateBook(Book book) {
+        bookRepository.update(book);
         return book;
     }
 

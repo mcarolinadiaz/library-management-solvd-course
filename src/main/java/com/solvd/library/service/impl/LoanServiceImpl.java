@@ -7,6 +7,7 @@ import com.solvd.library.persistence.impl.LoanJDBCImpl;
 import com.solvd.library.service.LoanService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class LoanServiceImpl implements LoanService {
     private final LoanRepository loanRepository;
@@ -16,7 +17,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Loan getLoanById(Long id) {
+    public Optional<Loan> getLoanById(Long id) {
         return loanRepository.findById(id);
     }
 

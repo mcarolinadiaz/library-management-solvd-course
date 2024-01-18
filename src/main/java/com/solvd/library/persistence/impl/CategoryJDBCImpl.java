@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the CategoryRepository interface.
@@ -46,19 +47,19 @@ public class CategoryJDBCImpl implements CategoryRepository {
     }
 
     @Override
-    public Category findById(Long id) {
+    public Optional<Category> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_category = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractCategoryFromResultSet(resultSet);
+                    return Optional.of(extractCategoryFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

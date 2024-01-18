@@ -7,6 +7,7 @@ import com.solvd.library.persistence.impl.InventoryJDBCImpl;
 import com.solvd.library.service.InventoryService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class InventoryServiceImpl implements InventoryService {
     private final InventoryRepository inventoryRepository;
@@ -16,7 +17,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Inventory getInventoryById(Long id) {
+    public Optional<Inventory> getInventoryById(Long id) {
         return inventoryRepository.findById(id);
     }
 
