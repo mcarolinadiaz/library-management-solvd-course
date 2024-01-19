@@ -15,8 +15,8 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
 
     public PersonServiceImpl() {
-       // this.personRepository = new PersonJDBCImpl();
-        this.personRepository = new PersonMybatisImpl();
+       this.personRepository = new PersonJDBCImpl();
+       //this.personRepository = new PersonMybatisImpl();
     }
 
     @Override

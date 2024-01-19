@@ -167,7 +167,7 @@ public class Main {
         Book book = new Book();
         book.setPublisherId(publisher.getId());
         book.setReservationId(reservation.getId());
-        book.setReservationId(category.getId());
+        book.setCategoryId(category.getId());
         book.setName("Elantris");
         book.setYear(new Date());
         BookService bookService = new BookServiceImpl();
@@ -178,7 +178,10 @@ public class Main {
             LOGGER.info(bookService.getBookById(bo.getId()));
             bo.setName("Animal Farm");
             LOGGER.info(bookService.updateBook(bo));
-            bookService.deleteBook(bo.getId());
+            //bookService.deleteBook(bo.getId());
+            if (book.getId() == null && bo.getId() != null) {
+                book.setId(bo.getId());
+            }
         }
 
         // Inventory test

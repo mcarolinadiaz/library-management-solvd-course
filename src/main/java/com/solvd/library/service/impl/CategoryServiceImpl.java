@@ -17,8 +17,8 @@ public class CategoryServiceImpl implements CategoryService {
     private final BookService bookService = new BookServiceImpl();
 
     public CategoryServiceImpl() {
-        //this.categoryRepository = new CategoryJDBCImpl();
-        this.categoryRepository = new CategoryMybatisImpl();
+        this.categoryRepository = new CategoryJDBCImpl();
+        //this.categoryRepository = new CategoryMybatisImpl();
     }
 
     @Override

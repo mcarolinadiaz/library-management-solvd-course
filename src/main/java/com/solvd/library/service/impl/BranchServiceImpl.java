@@ -19,8 +19,8 @@ public class BranchServiceImpl implements BranchService {
     private final InventoryService inventoryService = new InventoryServiceImpl();
 
     public BranchServiceImpl() {
-        //this.branchRepository = new BranchJDBCImpl();
-        this.branchRepository = new BranchMybatisImpl();
+        this.branchRepository = new BranchJDBCImpl();
+        //this.branchRepository = new BranchMybatisImpl();
     }
 
     @Override

@@ -92,7 +92,7 @@ public class BookJDBCImpl implements BookRepository {
     public void create(Book book) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
             statement.setString(1, book.getName());
-            statement.setTimestamp(2, Timestamp.valueOf(book.getYear().toString()));
+            statement.setTimestamp(2, new java.sql.Timestamp(book.getYear().getTime()));
             statement.setLong(3, book.getPublisherId());
             statement.setLong(4, book.getCategoryId());
             statement.setLong(5, book.getReservationId());
@@ -107,7 +107,7 @@ public class BookJDBCImpl implements BookRepository {
     public void update(Book book) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, book.getName());
-            statement.setTimestamp(2, Timestamp.valueOf(book.getYear().toString()));
+            statement.setTimestamp(2, new java.sql.Timestamp(book.getYear().getTime()));
             statement.setLong(3, book.getPublisherId());
             statement.setLong(4, book.getCategoryId());
             statement.setLong(5, book.getReservationId());
