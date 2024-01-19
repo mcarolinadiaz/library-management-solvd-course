@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
         userRepository.create(user);
         if (user.getLoans() != null) {
             List<Loan> loans = user.getLoans().stream()
-                    .map(loan -> loanService.createLoan(loan, loan.getUserId(), user.getId()))
+                    .map(loan -> loanService.createLoan(loan))
                     .collect(Collectors.toList());
             user.setLoans(loans);
         }
         if (user.getComments() != null) {
             List<Comment> comments = user.getComments().stream()
-                    .map(comment -> commentService.createComment(comment, user.getId(), comment.getUserId()))
+                    .map(comment -> commentService.createComment(comment))
                     .collect(Collectors.toList());
             user.setComments(comments);
         }

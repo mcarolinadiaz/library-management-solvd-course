@@ -4,8 +4,10 @@ package com.solvd.library.service.impl;
 import com.solvd.library.domain.Loan;
 import com.solvd.library.persistence.LoanRepository;
 import com.solvd.library.persistence.impl.LoanJDBCImpl;
+import com.solvd.library.persistence.impl.LoanMybatisImpl;
 import com.solvd.library.service.LoanService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +15,8 @@ public class LoanServiceImpl implements LoanService {
     private final LoanRepository loanRepository;
 
     public LoanServiceImpl() {
-        this.loanRepository = new LoanJDBCImpl();
+        //this.loanRepository = new LoanJDBCImpl();
+        this.loanRepository = new LoanMybatisImpl();
     }
 
     @Override
@@ -22,20 +25,20 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public List<Loan> getAllLoans() {
+    public Collection<Loan> getAllLoans() {
         return loanRepository.findAll();
     }
 
     @Override
-    public Loan createLoan(Loan loan, Long userId, Long bookId) {
+    public Loan createLoan(Loan loan) {
         loan.setId(null);
-        loanRepository.create(loan, userId, bookId);
+        loanRepository.create(loan);
         return loan;
     }
 
     @Override
-    public Loan updateLoan(Loan loan, Long userId, Long bookId) {
-        loanRepository.update(loan, userId, bookId);
+    public Loan updateLoan(Loan loan) {
+        loanRepository.update(loan);
         return loan;
     }
 

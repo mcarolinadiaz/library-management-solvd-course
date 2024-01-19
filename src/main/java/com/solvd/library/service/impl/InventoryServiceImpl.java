@@ -4,8 +4,10 @@ package com.solvd.library.service.impl;
 import com.solvd.library.domain.Inventory;
 import com.solvd.library.persistence.InventoryRepository;
 import com.solvd.library.persistence.impl.InventoryJDBCImpl;
+import com.solvd.library.persistence.impl.InventoryMybatisImpl;
 import com.solvd.library.service.InventoryService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +15,8 @@ public class InventoryServiceImpl implements InventoryService {
     private final InventoryRepository inventoryRepository;
 
     public InventoryServiceImpl() {
-        this.inventoryRepository = new InventoryJDBCImpl();
+        //this.inventoryRepository = new InventoryJDBCImpl();
+        this.inventoryRepository = new InventoryMybatisImpl();
     }
 
     @Override
@@ -22,20 +25,20 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<Inventory> getAllInventorys() {
+    public Collection<Inventory> getAllInventories() {
         return inventoryRepository.findAll();
     }
 
     @Override
-    public Inventory createInventory(Inventory inventory, Long branchId, Long bookId) {
+    public Inventory createInventory(Inventory inventory) {
         inventory.setId(null);
-        inventoryRepository.create(inventory, branchId, bookId);
+        inventoryRepository.create(inventory);
         return inventory;
     }
 
     @Override
-    public Inventory updateInventory(Inventory inventory, Long branchId, Long bookId) {
-        inventoryRepository.update(inventory, branchId, bookId);
+    public Inventory updateInventory(Inventory inventory) {
+        inventoryRepository.update(inventory);
         return inventory;
     }
 

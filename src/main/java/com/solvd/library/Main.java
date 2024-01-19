@@ -62,7 +62,10 @@ public class Main {
             LOGGER.info(publisherService.getPublisherById(p.getId()));
             p.setName("Alpha");
             LOGGER.info(publisherService.updatePublisher(p));
-            publisherService.deletePublisher(p.getId());
+            //publisherService.deletePublisher(p.getId());
+            if (publisher.getId() == null && p.getId() != null) {
+                publisher.setId(p.getId());
+            }
         }
 
         // Category test
@@ -70,13 +73,16 @@ public class Main {
         category.setName("Fantasy");
         CategoryService categoryService = new CategoryServiceImpl();
         LOGGER.info(categoryService.createCategory(category).getName());
-        Collection<Category> categorys = categoryService.getAllCategorys();
-        for (Category ca : categorys) {
+        Collection<Category> categories = categoryService.getAllCategorys();
+        for (Category ca : categories) {
             LOGGER.info(ca.getId());
             LOGGER.info(categoryService.getCategoryById(ca.getId()));
             ca.setName("Terror");
             LOGGER.info(categoryService.updateCategory(ca));
-            categoryService.deleteCategory(ca.getId());
+            //categoryService.deleteCategory(ca.getId());
+            if (category.getId() == null && ca.getId() != null) {
+                category.setId(ca.getId());
+            }
         }
 
         // Branch test
@@ -112,7 +118,7 @@ public class Main {
                 reservation.setId(r.getId());
             }
         }
-/*
+
         // User test
         User user = new User();
         user.setPersonId(person.getId());
@@ -130,9 +136,12 @@ public class Main {
             LOGGER.info(userService.getUserById(u.getId()));
             user.setReservationId(r1.getId());
             LOGGER.info(userService.updateUser(u));
-            userService.deleteUser(u.getId());
+            //userService.deleteUser(u.getId());
+            if (user.getId() == null && u.getId() != null) {
+                user.setId(u.getId());
+            }
         }
- */
+
 
         // Employee test
         Employee employee = new Employee();
@@ -153,66 +162,73 @@ public class Main {
             LOGGER.info(employeeService.updateEmployee(e));
             employeeService.deleteEmployee(e.getId());
         }
-/*
-        EmployeeService employeeService = new EmployeeServiceImpl();
-        UserService userService = new UserServiceImpl();
-        BranchService branchService = new BranchServiceImpl();
+
+        // Book test
+        Book book = new Book();
+        book.setPublisherId(publisher.getId());
+        book.setReservationId(reservation.getId());
+        book.setReservationId(category.getId());
+        book.setName("Elantris");
+        book.setYear(new Date());
         BookService bookService = new BookServiceImpl();
-        AuthorService authorService = new AuthorServiceImpl();
-        InventoryService inventoryService = new InventoryServiceImpl();
-        ReservationService reservationService = new ReservationServiceImpl();
-        CategoryService categoryService = new CategoryServiceImpl();
-        LoanService loanService = new LoanServiceImpl();
-        PublisherService publisherService = new PublisherServiceImpl();
+        LOGGER.info(bookService.createBook(book));
+        Collection<Book> books = bookService.getAllBooks();
+        for (Book bo : books) {
+            LOGGER.info(bo.getId());
+            LOGGER.info(bookService.getBookById(bo.getId()));
+            bo.setName("Animal Farm");
+            LOGGER.info(bookService.updateBook(bo));
+            bookService.deleteBook(bo.getId());
+        }
 
-        Book book1 = new Book();
-        book1.setName("Elantris");
-        book1.setYear(new Date());
-        Book book2 = new Book();
-        book2.setName("1984");
-        book2.setYear(new Date());
-
-        Branch branch1 = new Branch();
-        branch1.setLocation("United States");
-        Branch branch2 = new Branch();
-        branch2.setLocation("Colombia");
-
-        Employee employee = new Employee();
-        employee.setBranchId(branch1.getId());
-        employee.setPersonId(person.getId());
-
-
+        // Inventory test
         Inventory inventory = new Inventory();
+        inventory.setBookId(book.getId());
+        inventory.setBranchId(branch.getId());
         inventory.setStockQuantity(10);
-        inventory.setBranchId(branch1.getId());
-        inventory.setBookId(book1.getId());
-
-        Publisher publisher = new Publisher();
-        publisher.setName("Orange");
-
-        Reservation reservation = new Reservation();
-        reservation.setReservationDate(new Date());
-
-      //  publisher = publisherService.createPublisher(publisher);
-      //  reservation = reservationService.createReservation(reservation);
-     //   branch1 = branchService.createBranch(branch1);
-       //LOGGER.info(employee.getPersonId());
-
-
-        List<Branch> branches = branchService.getAllBranchs();
-        for (Branch br : branches) {
-            LOGGER.info(br.getId());
-          //  branchService.deleteBranch(br.getId());
+        InventoryService inventoryService = new InventoryServiceImpl();
+        LOGGER.info(inventoryService.createInventory(inventory));
+        Collection<Inventory> inventories = inventoryService.getAllInventories();
+        for (Inventory in : inventories) {
+            LOGGER.info(in.getId());
+            LOGGER.info(inventoryService.getInventoryById(in.getId()));
+            in.setStockQuantity(4);
+            LOGGER.info(inventoryService.updateInventory(in));
+            inventoryService.deleteInventory(in.getId());
         }
 
-        LOGGER.info(reservationService.getAllReservations());
-        List<Reservation> reservations = reservationService.getAllReservations();
-        for (Reservation r : reservations) {
-           // reservationService.deleteReservation(r.getId());
-            LOGGER.info(r.getId());
+        // Comment test
+        Comment comment = new Comment();
+        comment.setBookId(book.getId());
+        comment.setUserId(user.getId());
+        comment.setComment("Great!");
+        CommentService commentService = new CommentServiceImpl();
+        LOGGER.info(commentService.createComment(comment));
+        Collection<Comment> comments = commentService.getAllComments();
+        for (Comment co : comments) {
+            LOGGER.info(co.getId());
+            LOGGER.info(commentService.getCommentById(co.getId()));
+            comment.setComment("Good!");
+            LOGGER.info(commentService.updateComment(co));
+            commentService.deleteComment(co.getId());
         }
 
-*/
+        // Loan test
+        Loan loan = new Loan();
+        loan.setBookId(book.getId());
+        loan.setUserId(user.getId());
+        loan.setLoanDate(new Date());
+        loan.setReturnDate(new Date());
+        LoanService loanService = new LoanServiceImpl();
+        LOGGER.info(loanService.createLoan(loan));
+        Collection<Loan> loans = loanService.getAllLoans();
+        for (Loan lo : loans) {
+            LOGGER.info(lo.getId());
+            LOGGER.info(loanService.getLoanById(lo.getId()));
+            lo.setReturnDate(new Date());
+            LOGGER.info(loanService.updateLoan(lo));
+            loanService.deleteLoan(lo.getId());
+        }
 
     }
 }

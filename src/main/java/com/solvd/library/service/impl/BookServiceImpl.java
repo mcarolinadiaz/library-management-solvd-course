@@ -7,6 +7,7 @@ import com.solvd.library.domain.Inventory;
 import com.solvd.library.domain.Loan;
 import com.solvd.library.persistence.BookRepository;
 import com.solvd.library.persistence.impl.BookJDBCImpl;
+import com.solvd.library.persistence.impl.BookMybatisImpl;
 import com.solvd.library.service.BookService;
 import com.solvd.library.service.CommentService;
 import com.solvd.library.service.InventoryService;
@@ -24,7 +25,8 @@ public class BookServiceImpl implements BookService {
     private final InventoryService inventoryService = new InventoryServiceImpl();
 
     public BookServiceImpl() {
-        this.bookRepository = new BookJDBCImpl();
+        //this.bookRepository = new BookJDBCImpl();
+        this.bookRepository = new BookMybatisImpl();
     }
 
     /**
@@ -58,19 +60,19 @@ public class BookServiceImpl implements BookService {
 
         if (book.getComments() != null) {
             List<Comment> comments = book.getComments().stream()
-                    .map(comment -> commentService.createComment(comment, book.getId(), comment.getUserId()))
+                    .map(comment -> commentService.createComment(comment))
                     .collect(Collectors.toList());
             book.setComments(comments);
         }
         if (book.getLoans() != null) {
             List<Loan> loans = book.getLoans().stream()
-                    .map(loan -> loanService.createLoan(loan, loan.getUserId(), book.getId()))
+                    .map(loan -> loanService.createLoan(loan))
                     .collect(Collectors.toList());
             book.setLoans(loans);
         }
         if (book.getInventories() != null) {
             List<Inventory> inventories = book.getInventories().stream()
-                    .map(inventory -> inventoryService.createInventory(inventory, inventory.getBranchId(), book.getId()))
+                    .map(inventory -> inventoryService.createInventory(inventory))
                     .collect(Collectors.toList());
             book.setInventories(inventories);
         }
