@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the CommentRepository interface.
@@ -19,7 +20,7 @@ public class CommentJDBCImpl implements CommentRepository {
     private static final String SELECT_QUERY = "SELECT * FROM comments";
     private static final String DELETE_QUERY = "DELETE FROM comments WHERE id_comment = ?";
     private static final String INSERT_QUERY = "INSERT INTO comments (comment, id_book, id_user) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE comments SET comment = ? WHERE id_comment = ?";
+    private static final String UPDATE_QUERY = "UPDATE comments SET comment = ?, id_book = ?, id_user = ? WHERE id_comment = ?";
     private static final Connection connection;
 
     static {
@@ -49,19 +50,19 @@ public class CommentJDBCImpl implements CommentRepository {
     }
 
     @Override
-    public Comment findById(Long id) {
+    public Optional<Comment> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_comment = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractCommentFromResultSet(resultSet);
+                    return Optional.of(extractCommentFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -84,15 +85,13 @@ public class CommentJDBCImpl implements CommentRepository {
      * Configures the SQL declaration with entity data and executes it to create comments.
      *
      * @param comment The Comment to be created.
-     * @param bookId  The ID of the associated book.
-     * @param userId  The ID of the associated user.
      */
     @Override
-    public void create(Comment comment, Long bookId, Long userId) {
+    public void create(Comment comment) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
             statement.setString(1, comment.getComment());
-            statement.setLong(2, bookId);
-            statement.setLong(3, userId);
+            statement.setLong(2, comment.getBookId());
+            statement.setLong(3, comment.getUserId());
             statement.executeUpdate();
         } catch (SQLException e) {
             // Handle SQL exception
@@ -101,10 +100,12 @@ public class CommentJDBCImpl implements CommentRepository {
     }
 
     @Override
-    public void update(Comment comment, Long bookId, Long userId) {
+    public void update(Comment comment) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, comment.getComment());
-            statement.setLong(2, comment.getId());
+            statement.setLong(2, comment.getBookId());
+            statement.setLong(3, comment.getUserId());
+            statement.setLong(4, comment.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             // Handle SQL exception

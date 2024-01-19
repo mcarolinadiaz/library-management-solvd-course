@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the AuthorRepository interface.
@@ -45,19 +46,19 @@ public class AuthorJDBCImpl implements AuthorRepository {
     }
 
     @Override
-    public Author findById(Long id) {
+    public Optional<Author> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_author = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractAuthorFromResultSet(resultSet);
+                    return Optional.of(extractAuthorFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

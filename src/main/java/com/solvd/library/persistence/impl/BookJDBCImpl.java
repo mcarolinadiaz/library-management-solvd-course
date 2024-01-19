@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the BookRepository interface.
@@ -51,19 +52,19 @@ public class BookJDBCImpl implements BookRepository {
     }
 
     @Override
-    public Book findById(Long id) {
+    public Optional<Book> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_book = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractBookFromResultSet(resultSet);
+                    return Optional.of(extractBookFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -86,18 +87,15 @@ public class BookJDBCImpl implements BookRepository {
      * Configures the SQL declaration with entity data and executes it to create books.
      *
      * @param book           The Book to be created.
-     * @param publisherId    The ID of the publisher.
-     * @param categoryId     The ID of the category.
-     * @param reservationId  The ID of the reservation.
      */
     @Override
-    public void create(Book book, Long publisherId, Long categoryId, Long reservationId) {
+    public void create(Book book) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
             statement.setString(1, book.getName());
             statement.setTimestamp(2, Timestamp.valueOf(book.getYear().toString()));
-            statement.setLong(3, publisherId);
-            statement.setLong(4, categoryId);
-            statement.setLong(5, reservationId);
+            statement.setLong(3, book.getPublisherId());
+            statement.setLong(4, book.getCategoryId());
+            statement.setLong(5, book.getReservationId());
             statement.executeUpdate();
         } catch (SQLException e) {
             // Handle SQL exception
@@ -106,13 +104,13 @@ public class BookJDBCImpl implements BookRepository {
     }
 
     @Override
-    public void update(Book book, Long publisherId, Long categoryId, Long reservationId) {
+    public void update(Book book) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, book.getName());
             statement.setTimestamp(2, Timestamp.valueOf(book.getYear().toString()));
-            statement.setLong(3, publisherId);
-            statement.setLong(4, categoryId);
-            statement.setLong(5, reservationId);
+            statement.setLong(3, book.getPublisherId());
+            statement.setLong(4, book.getCategoryId());
+            statement.setLong(5, book.getReservationId());
             statement.setLong(6, book.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

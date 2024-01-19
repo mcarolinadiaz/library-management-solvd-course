@@ -4,24 +4,28 @@ package com.solvd.library.service.impl;
 import com.solvd.library.domain.Person;
 import com.solvd.library.persistence.PersonRepository;
 import com.solvd.library.persistence.impl.PersonJDBCImpl;
+import com.solvd.library.persistence.impl.PersonMybatisImpl;
 import com.solvd.library.service.PersonService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
 
     public PersonServiceImpl() {
-        this.personRepository = new PersonJDBCImpl();
+       // this.personRepository = new PersonJDBCImpl();
+        this.personRepository = new PersonMybatisImpl();
     }
 
     @Override
-    public Person getPersonById(Long id) {
+    public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
     }
 
     @Override
-    public List<Person> getAllPersons() {
+    public Collection<Person> getAllPersons() {
         return personRepository.findAll();
     }
 

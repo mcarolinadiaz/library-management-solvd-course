@@ -7,12 +7,15 @@ import com.solvd.library.domain.Inventory;
 import com.solvd.library.domain.Loan;
 import com.solvd.library.persistence.BookRepository;
 import com.solvd.library.persistence.impl.BookJDBCImpl;
+import com.solvd.library.persistence.impl.BookMybatisImpl;
 import com.solvd.library.service.BookService;
 import com.solvd.library.service.CommentService;
 import com.solvd.library.service.InventoryService;
 import com.solvd.library.service.LoanService;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BookServiceImpl implements BookService {
@@ -22,15 +25,18 @@ public class BookServiceImpl implements BookService {
     private final InventoryService inventoryService = new InventoryServiceImpl();
 
     public BookServiceImpl() {
-        this.bookRepository = new BookJDBCImpl();
+        //this.bookRepository = new BookJDBCImpl();
+        this.bookRepository = new BookMybatisImpl();
     }
 
-    /** Retrieve a book by its ID from the repository.
+    /**
+     * Retrieve a book by its ID from the repository.
+     *
      * @param id
      * @return
      */
     @Override
-    public Book getBookById(Long id) {
+    public Optional<Book> getBookById(Long id) {
         return bookRepository.findById(id);
     }
 
@@ -38,38 +44,35 @@ public class BookServiceImpl implements BookService {
      * @return
      */
     @Override
-    public List<Book> getAllBooks() {
+    public Collection<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
     /** Create the book in the repository and retrieve it.
      * Create and set comments, loans, and inventories associated with the book.
      * @param book
-     * @param publisherId
-     * @param categoryId
-     * @param reservationId
      * @return
      */
     @Override
-    public Book createBook(Book book, Long publisherId, Long categoryId, Long reservationId) {
+    public Book createBook(Book book) {
         book.setId(null);
-        bookRepository.create(book, publisherId, categoryId, reservationId);
+        bookRepository.create(book);
 
         if (book.getComments() != null) {
             List<Comment> comments = book.getComments().stream()
-                    .map(comment -> commentService.createComment(comment, book.getId(), comment.getUserId()))
+                    .map(comment -> commentService.createComment(comment))
                     .collect(Collectors.toList());
             book.setComments(comments);
         }
         if (book.getLoans() != null) {
             List<Loan> loans = book.getLoans().stream()
-                    .map(loan -> loanService.createLoan(loan, loan.getUserId(), book.getId()))
+                    .map(loan -> loanService.createLoan(loan))
                     .collect(Collectors.toList());
             book.setLoans(loans);
         }
         if (book.getInventories() != null) {
             List<Inventory> inventories = book.getInventories().stream()
-                    .map(inventory -> inventoryService.createInventory(inventory, inventory.getBranchId(), book.getId()))
+                    .map(inventory -> inventoryService.createInventory(inventory))
                     .collect(Collectors.toList());
             book.setInventories(inventories);
         }
@@ -78,14 +81,11 @@ public class BookServiceImpl implements BookService {
 
     /** Update the book in the repository and retrieve it.
      * @param book
-     * @param publisherId
-     * @param categoryId
-     * @param reservationId
      * @return
      */
     @Override
-    public Book updateBook(Book book, Long publisherId, Long categoryId, Long reservationId) {
-        bookRepository.update(book, publisherId, categoryId, reservationId);
+    public Book updateBook(Book book) {
+        bookRepository.update(book);
         return book;
     }
 

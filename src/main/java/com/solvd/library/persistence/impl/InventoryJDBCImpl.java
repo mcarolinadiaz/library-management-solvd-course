@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the InventoryRepository interface.
@@ -49,12 +50,12 @@ public class InventoryJDBCImpl implements InventoryRepository {
     }
 
     @Override
-    public Inventory findById(Long id) {
+    public Optional<Inventory> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_inventory = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractInventoryFromResultSet(resultSet);
+                    return Optional.of(extractInventoryFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -63,7 +64,7 @@ public class InventoryJDBCImpl implements InventoryRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -98,11 +99,11 @@ public class InventoryJDBCImpl implements InventoryRepository {
     }
 
     @Override
-    public void create(Inventory inventory, Long branchId, Long bookId) {
+    public void create(Inventory inventory) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, inventory.getStockQuantity());
-            statement.setLong(2, branchId);
-            statement.setLong(3, bookId);
+            statement.setLong(2, inventory.getBranchId());
+            statement.setLong(3, inventory.getBookId());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -118,11 +119,11 @@ public class InventoryJDBCImpl implements InventoryRepository {
     }
 
     @Override
-    public void update(Inventory inventory, Long branchId, Long bookId) {
+    public void update(Inventory inventory) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setInt(1, inventory.getStockQuantity());
-            statement.setLong(2, branchId);
-            statement.setLong(3, bookId);
+            statement.setLong(2, inventory.getBranchId());
+            statement.setLong(3, inventory.getBookId());
             statement.setLong(4, inventory.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

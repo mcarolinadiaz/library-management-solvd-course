@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the UserRepository interface.
@@ -58,12 +59,12 @@ public class UserJDBCImpl implements UserRepository {
     }
 
     @Override
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_user = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractUserFromResultSet(resultSet);
+                    return Optional.of(extractUserFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -72,7 +73,7 @@ public class UserJDBCImpl implements UserRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -94,10 +95,10 @@ public class UserJDBCImpl implements UserRepository {
     }
 
     @Override
-    public void create(User user, Long personId, Long reservationId) {
+    public void create(User user) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, personId);
-            statement.setLong(2, reservationId);
+            statement.setLong(1, user.getPersonId());
+            statement.setLong(2, user.getReservationId());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -113,10 +114,10 @@ public class UserJDBCImpl implements UserRepository {
     }
 
     @Override
-    public void update(User user, Long personId, Long reservationId) {
+    public void update(User user) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setLong(1, personId);
-            statement.setLong(2, reservationId);
+            statement.setLong(1, user.getPersonId());
+            statement.setLong(2, user.getReservationId());
             statement.setLong(3, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

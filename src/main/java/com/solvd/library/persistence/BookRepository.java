@@ -1,15 +1,16 @@
 package com.solvd.library.persistence;
 
 import com.solvd.library.domain.Book;
-import com.solvd.library.domain.Publisher;
+import org.apache.ibatis.annotations.Param;
 
-import java.sql.Connection;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface BookRepository extends GenericDAO<Book> {
-    Book findById(Long id);
-    List<Book> findAll();
-    void create(Book entity, Long publisherId, Long categoryId, Long reservationId);
-    void update(Book entity, Long publisherId, Long categoryId, Long reservationId);
-    void delete(Long id);
+    Optional<Book> findById(@Param("id") Long id);
+    Collection<Book> findAll();
+    void create(@Param("book") Book book);
+    void update(@Param("book") Book book);
+    void delete(@Param("id") Long id);
 }

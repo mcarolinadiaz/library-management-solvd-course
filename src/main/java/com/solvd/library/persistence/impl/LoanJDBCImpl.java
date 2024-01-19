@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the LoanRepository interface.
@@ -63,12 +64,12 @@ public class LoanJDBCImpl implements LoanRepository {
     }
 
     @Override
-    public Loan findById(Long id) {
+    public Optional<Loan> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_loan = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractLoanFromResultSet(resultSet);
+                    return Optional.of(extractLoanFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -77,7 +78,7 @@ public class LoanJDBCImpl implements LoanRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -99,12 +100,12 @@ public class LoanJDBCImpl implements LoanRepository {
     }
 
     @Override
-    public void create(Loan loan, Long userId, Long bookId) {
+    public void create(Loan loan) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setTimestamp(1, Timestamp.valueOf(loan.getLoanDate().toString()));
-            statement.setTimestamp(2, Timestamp.valueOf(loan.getReturnDate().toString()));
-            statement.setLong(3, bookId);
-            statement.setLong(4, userId);
+            statement.setTimestamp(1, new java.sql.Timestamp(loan.getLoanDate().getTime()));
+            statement.setTimestamp(2, new java.sql.Timestamp(loan.getReturnDate().getTime()));
+            statement.setLong(3, loan.getBookId());
+            statement.setLong(4, loan.getUserId());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -120,12 +121,12 @@ public class LoanJDBCImpl implements LoanRepository {
     }
 
     @Override
-    public void update(Loan loan, Long userId, Long bookId) {
+    public void update(Loan loan) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setTimestamp(1, Timestamp.valueOf(loan.getLoanDate().toString()));
-            statement.setTimestamp(2, Timestamp.valueOf(loan.getReturnDate().toString()));
-            statement.setLong(3, bookId);
-            statement.setLong(4, userId);
+            statement.setTimestamp(1, new java.sql.Timestamp(loan.getLoanDate().getTime()));
+            statement.setTimestamp(2, new java.sql.Timestamp(loan.getReturnDate().getTime()));
+            statement.setLong(3, loan.getBookId());
+            statement.setLong(4, loan.getUserId());
             statement.setLong(5, loan.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

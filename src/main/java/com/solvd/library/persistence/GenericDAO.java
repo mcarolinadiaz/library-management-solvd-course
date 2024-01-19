@@ -1,10 +1,14 @@
 package com.solvd.library.persistence;
 
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface GenericDAO<T> {
-    T findById(Long id);
-    List<T> findAll();
+    Optional<T> findById(Long id);
+    Collection<T> findAll();
     /*
     void create(T entity);
     void update(T entity);*/

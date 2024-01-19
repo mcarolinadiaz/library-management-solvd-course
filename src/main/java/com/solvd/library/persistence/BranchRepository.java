@@ -1,16 +1,15 @@
 package com.solvd.library.persistence;
 
 import com.solvd.library.domain.Branch;
-import com.solvd.library.domain.Employee;
-import com.solvd.library.domain.Inventory;
+import org.apache.ibatis.annotations.Param;
 
-import java.sql.Connection;
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
 public interface BranchRepository extends GenericDAO<Branch>{
-    Branch findById(Long id);
-    List<Branch> findAll();
-    void create(Branch branch);
-    void update(Branch branch);
+    Optional<Branch> findById(@Param("id") Long id);
+    Collection<Branch> findAll();
+    void create(@Param("branch") Branch branch);
+    void update(@Param("branch") Branch branch);
 
 }

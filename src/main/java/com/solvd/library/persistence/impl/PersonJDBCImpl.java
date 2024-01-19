@@ -8,7 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the PersonRepository interface.
@@ -48,12 +50,12 @@ public class PersonJDBCImpl implements PersonRepository {
     }
 
     @Override
-    public Person findById(Long id) {
+    public Optional<Person> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_person = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractPersonFromResultSet(resultSet);
+                    return Optional.of(extractPersonFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -62,11 +64,11 @@ public class PersonJDBCImpl implements PersonRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public List<Person> findAll() {
+    public Collection<Person> findAll() {
         List<Person> persons = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + ";")) {
             try (ResultSet resultSet = statement.executeQuery()) {

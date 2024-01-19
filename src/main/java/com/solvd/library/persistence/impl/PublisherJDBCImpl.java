@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the PublisherRepository interface.
@@ -60,12 +61,12 @@ public class PublisherJDBCImpl implements PublisherRepository {
     }
 
     @Override
-    public Publisher findById(Long id) {
+    public Optional<Publisher> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_publisher = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractPublisherFromResultSet(resultSet);
+                    return Optional.of(extractPublisherFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -74,7 +75,7 @@ public class PublisherJDBCImpl implements PublisherRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

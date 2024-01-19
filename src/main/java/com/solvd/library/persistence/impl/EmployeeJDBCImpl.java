@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * JDBC implementation of the EmployeeRepository interface.
@@ -48,12 +49,12 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
     }
 
     @Override
-    public Employee findById(Long id) {
+    public Optional<Employee> findById(Long id) {
         try (PreparedStatement statement = connection.prepareStatement(SELECT_QUERY + " WHERE id_employee = ?")) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return extractEmployeeFromResultSet(resultSet);
+                    return Optional.of(extractEmployeeFromResultSet(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -62,7 +63,7 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
         } finally {
             MyConnectionPool.returnConnectionToPool(connection);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -87,14 +88,12 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
      * Configures the SQL declaration with entity data and executes it to create employees.
      *
      * @param employee The Employee to be created.
-     * @param branchId The ID of the associated branch.
-     * @param personId The ID of the associated person.
      */
     @Override
-    public void create(Employee employee, Long branchId, Long personId) {
+    public void create(Employee employee) {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, branchId);
-            statement.setLong(2, personId);
+            statement.setLong(1, employee.getBranchId());
+            statement.setLong(2, employee.getPersonId());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -110,10 +109,10 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
     }
 
     @Override
-    public void update(Employee employee, Long branchId, Long personId) {
+    public void update(Employee employee) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setLong(1, branchId);
-            statement.setLong(2, personId);
+            statement.setLong(1, employee.getBranchId());
+            statement.setLong(2, employee.getPersonId());
             statement.setLong(3, employee.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

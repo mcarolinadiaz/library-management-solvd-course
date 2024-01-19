@@ -1,16 +1,15 @@
 package com.solvd.library.persistence;
 
-import com.solvd.library.domain.Book;
-import com.solvd.library.domain.Branch;
 import com.solvd.library.domain.Inventory;
-import com.solvd.library.domain.User;
+import org.apache.ibatis.annotations.Param;
 
-import java.sql.Connection;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface InventoryRepository extends GenericDAO<Inventory> {
-    Inventory findById(Long id);
-    List<Inventory> findAll();
-    void create(Inventory inventory, Long branchId, Long bookId);
-    void update(Inventory inventory, Long branchId, Long bookId);
+    Optional<Inventory> findById(@Param("id") Long id);
+    Collection<Inventory> findAll();
+    void create(@Param("inventory") Inventory inventory);
+    void update(@Param("inventory") Inventory inventory);
 }
