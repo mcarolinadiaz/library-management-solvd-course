@@ -15,8 +15,8 @@ public class InventoryServiceImpl implements InventoryService {
     private final InventoryRepository inventoryRepository;
 
     public InventoryServiceImpl() {
-        //this.inventoryRepository = new InventoryJDBCImpl();
-        this.inventoryRepository = new InventoryMybatisImpl();
+        this.inventoryRepository = new InventoryJDBCImpl();
+        //this.inventoryRepository = new InventoryMybatisImpl();
     }
 
     @Override

@@ -15,8 +15,8 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
 
     public AuthorServiceImpl() {
-        //this.authorRepository = new AuthorJDBCImpl();
-        this.authorRepository = new AuthorMybatisImpl();
+        this.authorRepository = new AuthorJDBCImpl();
+        //this.authorRepository = new AuthorMybatisImpl();
     }
 
     @Override

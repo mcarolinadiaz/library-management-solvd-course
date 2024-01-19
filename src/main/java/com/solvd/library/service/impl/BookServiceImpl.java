@@ -25,8 +25,8 @@ public class BookServiceImpl implements BookService {
     private final InventoryService inventoryService = new InventoryServiceImpl();
 
     public BookServiceImpl() {
-        //this.bookRepository = new BookJDBCImpl();
-        this.bookRepository = new BookMybatisImpl();
+        this.bookRepository = new BookJDBCImpl();
+        //this.bookRepository = new BookMybatisImpl();
     }
 
     /**

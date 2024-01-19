@@ -15,8 +15,8 @@ public class LoanServiceImpl implements LoanService {
     private final LoanRepository loanRepository;
 
     public LoanServiceImpl() {
-        //this.loanRepository = new LoanJDBCImpl();
-        this.loanRepository = new LoanMybatisImpl();
+        this.loanRepository = new LoanJDBCImpl();
+        //this.loanRepository = new LoanMybatisImpl();
     }
 
     @Override
