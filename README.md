@@ -42,6 +42,12 @@ This design provides a foundation for a library management system with various r
 4-
 -Add MyBatis DAOs to the existing hierarchy with the same requirements. Choose any XML or interface mapping.
 -Switch service classes to MyBatis.
+    Solution:
+       - Integrate MyBatis for Data Access
+           - Added MyBatis DAOs following existing JDBC hierarchy.
+           - Introduced XML mapping for entities to configure MyBatis.
+           - Service classes switched to MyBatis for database interactions.
+           - Maintained consistency with JDBC structure.
 
 5-
 -Create one XML file and XSD schema for at least 5 classes from the below hierarchy.
