@@ -59,6 +59,8 @@ public class BranchJDBCImpl implements BranchRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return Optional.empty();
     }
@@ -75,6 +77,8 @@ public class BranchJDBCImpl implements BranchRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return branches;
     }
@@ -86,12 +90,19 @@ public class BranchJDBCImpl implements BranchRepository {
      */
     @Override
     public void create(Branch branch) {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, branch.getLocation());
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    branch.setId(generatedKeys.getLong(1));
+                }
+            }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -104,6 +115,8 @@ public class BranchJDBCImpl implements BranchRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -115,6 +128,8 @@ public class BranchJDBCImpl implements BranchRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

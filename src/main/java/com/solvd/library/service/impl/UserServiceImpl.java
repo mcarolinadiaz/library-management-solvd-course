@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
     private final CommentService commentService = new CommentServiceImpl();
 
     public UserServiceImpl() {
-        //this.userRepository = new UserJDBCImpl();
-        this.userRepository = new UserMybatisImpl();
+        this.userRepository = new UserJDBCImpl();
+        //this.userRepository = new UserMybatisImpl();
     }
 
     @Override

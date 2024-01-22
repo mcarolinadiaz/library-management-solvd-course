@@ -98,9 +98,14 @@ public class PublisherJDBCImpl implements PublisherRepository {
 
     @Override
     public void create(Publisher publisher) {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, publisher.getName());
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    publisher.setId(generatedKeys.getLong(1));
+                }
+            }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
