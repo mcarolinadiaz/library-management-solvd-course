@@ -14,8 +14,8 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
 
     public CommentServiceImpl() {
-        //this.commentRepository = new CommentJDBCImpl();
-        this.commentRepository = new CommentMybatisImpl();
+        this.commentRepository = new CommentJDBCImpl();
+        //.commentRepository = new CommentMybatisImpl();
     }
 
     @Override

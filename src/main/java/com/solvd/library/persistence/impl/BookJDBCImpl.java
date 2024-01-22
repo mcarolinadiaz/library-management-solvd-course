@@ -63,6 +63,8 @@ public class BookJDBCImpl implements BookRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return Optional.empty();
     }
@@ -79,6 +81,8 @@ public class BookJDBCImpl implements BookRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return books;
     }
@@ -90,16 +94,23 @@ public class BookJDBCImpl implements BookRepository {
      */
     @Override
     public void create(Book book) {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, book.getName());
             statement.setTimestamp(2, new java.sql.Timestamp(book.getYear().getTime()));
             statement.setLong(3, book.getPublisherId());
             statement.setLong(4, book.getCategoryId());
             statement.setLong(5, book.getReservationId());
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    book.setId(generatedKeys.getLong(1));
+                }
+            }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -116,6 +127,8 @@ public class BookJDBCImpl implements BookRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -127,6 +140,8 @@ public class BookJDBCImpl implements BookRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

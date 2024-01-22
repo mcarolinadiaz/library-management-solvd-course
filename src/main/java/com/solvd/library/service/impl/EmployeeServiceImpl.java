@@ -15,8 +15,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     public EmployeeServiceImpl() {
-        //this.employeeRepository = new EmployeeJDBCImpl();
-        this.employeeRepository = new EmployeeMybatisImpl();
+        this.employeeRepository = new EmployeeJDBCImpl();
+        //this.employeeRepository = new EmployeeMybatisImpl();
     }
 
     @Override

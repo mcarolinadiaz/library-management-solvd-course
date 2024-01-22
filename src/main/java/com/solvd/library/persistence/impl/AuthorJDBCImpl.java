@@ -57,6 +57,8 @@ public class AuthorJDBCImpl implements AuthorRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return Optional.empty();
     }
@@ -73,6 +75,8 @@ public class AuthorJDBCImpl implements AuthorRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return authors;
     }
@@ -84,13 +88,20 @@ public class AuthorJDBCImpl implements AuthorRepository {
     @Override
     public void create(Author author) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO authors (name, nationality) VALUES (?, ?)")) {
+                "INSERT INTO authors (name, nationality) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, author.getName());
             statement.setString(2, author.getNationality());
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    author.setId(generatedKeys.getLong(1));
+                }
+            }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -104,6 +115,8 @@ public class AuthorJDBCImpl implements AuthorRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -116,6 +129,8 @@ public class AuthorJDBCImpl implements AuthorRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

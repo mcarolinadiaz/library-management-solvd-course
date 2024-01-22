@@ -100,7 +100,7 @@ public class EmployeeJDBCImpl implements EmployeeRepository {
                     employee.setId(generatedKeys.getLong(1));
                 }
             }
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
         } finally {

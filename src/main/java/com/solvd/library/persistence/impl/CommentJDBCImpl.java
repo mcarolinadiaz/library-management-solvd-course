@@ -61,6 +61,8 @@ public class CommentJDBCImpl implements CommentRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return Optional.empty();
     }
@@ -77,6 +79,8 @@ public class CommentJDBCImpl implements CommentRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error("SQL Exception while executing query: {}", e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
         return comments;
     }
@@ -88,14 +92,21 @@ public class CommentJDBCImpl implements CommentRepository {
      */
     @Override
     public void create(Comment comment) {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, comment.getComment());
             statement.setLong(2, comment.getBookId());
             statement.setLong(3, comment.getUserId());
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    comment.setId(generatedKeys.getLong(1));
+                }
+            }
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -110,6 +121,8 @@ public class CommentJDBCImpl implements CommentRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 
@@ -121,6 +134,8 @@ public class CommentJDBCImpl implements CommentRepository {
         } catch (SQLException e) {
             // Handle SQL exception
             LOGGER.error(e.getMessage());
+        } finally {
+            MyConnectionPool.returnConnectionToPool(connection);
         }
     }
 }

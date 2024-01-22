@@ -114,7 +114,7 @@ public class ReservationJDBCImpl implements ReservationRepository {
     @Override
     public void update(Reservation reservation) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setTimestamp(1, Timestamp.valueOf(reservation.getReservationDate().toString()));
+            statement.setTimestamp(1, new java.sql.Timestamp(reservation.getReservationDate().getTime()));
             statement.setLong(2, reservation.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -19,8 +19,8 @@ public class PublisherServiceImpl implements PublisherService {
     private final BookService bookService = new BookServiceImpl();
 
     public PublisherServiceImpl() {
-        //this.publisherRepository = new PublisherJDBCImpl();
-        this.publisherRepository = new PublisherMybatisImpl();
+        this.publisherRepository = new PublisherJDBCImpl();
+        //this.publisherRepository = new PublisherMybatisImpl();
     }
 
     @Override

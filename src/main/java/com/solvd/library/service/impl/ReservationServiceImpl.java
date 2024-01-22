@@ -24,8 +24,8 @@ public class ReservationServiceImpl implements ReservationService {
     private final BookService bookService = new BookServiceImpl();
     private final UserService userService = new UserServiceImpl();
     public ReservationServiceImpl() {
-        //reservationRepository = new ReservationJDBCImpl();
-        this.reservationRepository = new ReservationMybatisImpl();
+        reservationRepository = new ReservationJDBCImpl();
+        //this.reservationRepository = new ReservationMybatisImpl();
     }
     @Override
     public Optional<Reservation> getReservationById(Long id) {
