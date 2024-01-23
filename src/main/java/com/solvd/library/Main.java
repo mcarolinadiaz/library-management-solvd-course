@@ -6,8 +6,13 @@ import com.solvd.library.service.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.xml.namespace.QName;
+import javax.xml.stream.*;
+import javax.xml.stream.events.*;
+import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -15,6 +20,7 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
         // Person test
+        /*
         Person person = new Person();
         person.setFirstName("Bill");
         person.setLastName("Gates");
@@ -231,7 +237,56 @@ public class Main {
             lo.setReturnDate(new Date());
             LOGGER.info(loanService.updateLoan(lo));
             loanService.deleteLoan(lo.getId());
-        }
+        }*/
 
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+        try (FileInputStream fis = new FileInputStream("src/main/resources/library.xml")) {
+            XMLEventReader reader = factory.createXMLEventReader(fis);
+
+            while (reader.hasNext()) {
+                XMLEvent xmlEvent = reader.nextEvent();
+
+                switch (xmlEvent.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        handleStartElement(xmlEvent.asStartElement());
+                        break;
+                    case XMLStreamConstants.CHARACTERS:
+                        handleCharacters(xmlEvent.asCharacters());
+                        break;
+                    case XMLStreamConstants.END_ELEMENT:
+                        handleEndElement(xmlEvent.asEndElement());
+                        break;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    private static void handleStartElement(StartElement startElement) {
+        String elementName = startElement.getName().getLocalPart();
+        LOGGER.info("Start Element: " + elementName);
+
+        Iterator<Attribute> attributes = startElement.getAttributes();
+        while (attributes.hasNext()) {
+            Attribute attribute = attributes.next();
+            String attributeName = attribute.getName().getLocalPart();
+            String attributeValue = attribute.getValue();
+            LOGGER.info("Attribute: " + attributeName + ", Value: " + attributeValue);
+        }
+    }
+
+    private static void handleCharacters(Characters characters) {
+        String text = characters.getData().trim();
+        if (!text.isEmpty()) {
+            LOGGER.info("Value: " + text);
+        }
+    }
+
+    private static void handleEndElement(EndElement endElement) {
+        String elementName = endElement.getName().getLocalPart();
+        LOGGER.info("End Element: " + elementName);
+    }
+
 }
