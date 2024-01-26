@@ -1,11 +1,18 @@
 package com.solvd.library.domain;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.xml.bind.annotation.*;
 
+import java.util.List;
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Branch {
+    @XmlAttribute(name = "id")
     private Long id;
     private String location;
+    @JsonIgnore
     private List<Employee> employees;
+    @XmlElementWrapper(name = "inventories")
+    @XmlElement(name = "inventory")
     private List<Inventory> inventories;
 
     public Long getId() {
