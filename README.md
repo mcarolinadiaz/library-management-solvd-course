@@ -50,16 +50,16 @@ This design provides a foundation for a library management system with various r
   - Maintained consistency with JDBC structure.
 
 5-
--Create one XML file and XSD schema for at least 5 classes from the below hierarchy.
--Validate XML file using XSD schema and assigned parser.
--Parse XML file using one of the parsers from the title.
--Add JAXB annotations to the hierarchy. Date, List, and complex objects should be covered.
--Parse XML using JAXB.
+- Create one XML file and XSD schema for at least 5 classes from the below hierarchy.
+- Validate XML file using XSD schema and assigned parser.
+- Parse XML file using one of the parsers from the title.
+- Add JAXB annotations to the hierarchy. Date, List, and complex objects should be covered.
+- Parse XML using JAXB.
 
 6-
--Add Jackson’s annotation to the hierarchy. Date, List, and complex objects should be covered.
--Parse JSON using Jackson.
+- Add Jackson’s annotation to the hierarchy. Date, List, and complex objects should be covered.
+- Parse JSON using Jackson.
 
 7-
--Add Factory, Abstract Factory, Builder, Listener, Facade, Decorator, Proxy, Strategy, MVC patterns to your current project.
--Refactor code for the current project to satisfy SOLID principles.
+- Add Factory, Abstract Factory, Builder, Listener, Facade, Decorator, Proxy, Strategy, MVC patterns to your current project.
+- Refactor code for the current project to satisfy SOLID principles.
