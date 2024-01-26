@@ -1,10 +1,15 @@
 package com.solvd.library.domain;
 
-import java.util.List;
+import jakarta.xml.bind.annotation.*;
 
+import java.util.List;
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Category {
+    @XmlAttribute(name = "id")
     private Long id;
     private String name;
+    @XmlElementWrapper(name = "books")
+    @XmlElement(name = "book")
     private List<Book> books;
 
     public Long getId() {

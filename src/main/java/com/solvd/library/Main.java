@@ -1,8 +1,12 @@
 package com.solvd.library;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvd.library.domain.*;
 import com.solvd.library.service.*;
 import com.solvd.library.service.impl.*;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -259,9 +263,32 @@ public class Main {
                 }
             }
 
+            try {
+                JAXBContext context = JAXBContext.newInstance(Library.class);
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                Library library = (Library) unmarshaller.unmarshal(fis);
+                System.out.println();
+            } catch(JAXBException e) {
+                LOGGER.error(e.getMessage());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try (FileInputStream jsonFile = new FileInputStream("src/main/resources/library.json")) {
+            try {
+                Library libraryJson = objectMapper.readValue(jsonFile, Library.class);
+                System.out.println();
+            } catch (RuntimeException e) {
+                LOGGER.error(e.getMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private static void handleStartElement(StartElement startElement) {
@@ -288,5 +315,10 @@ public class Main {
         String elementName = endElement.getName().getLocalPart();
         LOGGER.info("End Element: " + elementName);
     }
+
+
+
+
+
 
 }

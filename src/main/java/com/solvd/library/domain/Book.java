@@ -1,17 +1,27 @@
 package com.solvd.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.xml.bind.annotation.*;
+
 import java.util.Date;
 import java.util.List;
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Book {
     private String name;
+    @XmlAttribute(name = "id")
     private Long id;
+    @JsonIgnore
     private List<Comment> comments;
+    @JsonIgnore
     private List<Loan> loans;
+    @XmlElementWrapper(name = "inventories")
+    @XmlElement(name = "inventory")
     private List<Inventory> inventories;
     private Long publisherId;
     private Long categoryId;
     private Long reservationId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date year;
 
     public Long getId() {

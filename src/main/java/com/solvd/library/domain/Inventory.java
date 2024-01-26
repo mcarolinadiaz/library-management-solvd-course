@@ -1,6 +1,11 @@
 package com.solvd.library.domain;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Inventory {
+    @XmlAttribute(name = "id")
     private Long id;
     private int stockQuantity;
     private Long branchId;

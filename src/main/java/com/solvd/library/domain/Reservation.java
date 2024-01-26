@@ -1,12 +1,21 @@
 package com.solvd.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.xml.bind.annotation.*;
+
 import java.util.Date;
 import java.util.List;
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Reservation {
+    @XmlAttribute(name = "id")
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date reservationDate;
+    @XmlElementWrapper(name = "books")
+    @XmlElement(name = "book")
     private List<Book> books;
+    @JsonIgnore
     private List<User> users;
 
     public Long getId() {

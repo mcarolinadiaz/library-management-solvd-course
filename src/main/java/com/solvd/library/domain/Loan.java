@@ -1,6 +1,10 @@
 package com.solvd.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
+
 
 public class Loan {
     private Long id;
