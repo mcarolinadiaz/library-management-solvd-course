@@ -1,0 +1,35 @@
+<!-- ReservationMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.ReservationRepository">
+
+    <!-- resultMap to map database columns to Reservation object properties -->
+    <resultMap id="reservationResultMap" type="com.solvd.library.domain.Reservation">
+        <id property="id" column="id_reservation"/>
+        <result property="reservationDate" column="reservation_date"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="reservationResultMap">
+        SELECT * FROM reservations WHERE id_reservation = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="reservationResultMap">
+        SELECT * FROM reservations
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Reservation">
+        INSERT INTO reservations (reservation_date) VALUES (#{reservation.reservationDate})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Reservation">
+        UPDATE reservations SET reservation_date = #{reservation.reservationDate} WHERE id_reservation = #{reservation.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM reservations WHERE id_reservation = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,36 @@
+<!-- EmployeeMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.EmployeeRepository">
+
+    <!-- resultMap to map database columns to Employee object properties -->
+    <resultMap id="employeeResultMap" type="com.solvd.library.domain.Employee">
+        <id property="id" column="id_employee"/>
+        <result property="personId" column="id_person"/>
+        <result property="branchId" column="id_branch"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="employeeResultMap">
+        SELECT * FROM employees WHERE id_employee = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="employeeResultMap">
+        SELECT * FROM employees
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Employee">
+        INSERT INTO employees (id_person, id_branch) VALUES (#{employee.personId}, #{employee.branchId})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Employee">
+        UPDATE employees SET id_person = #{employee.personId}, id_branch = #{employee.branchId} WHERE id_employee = #{employee.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM employees WHERE id_employee = #{id}
+    </delete>
+</mapper>

@@ -3,20 +3,17 @@ package com.solvd.library.service.impl;
 
 import com.solvd.library.domain.Author;
 import com.solvd.library.persistence.AuthorRepository;
-import com.solvd.library.persistence.impl.AuthorJDBCImpl;
-import com.solvd.library.persistence.impl.AuthorMybatisImpl;
+import com.solvd.library.persistence.impl.AuthorRepositoryFactory;
 import com.solvd.library.service.AuthorService;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 public class AuthorServiceImpl implements AuthorService {
-    private final AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
 
-    public AuthorServiceImpl() {
-        this.authorRepository = new AuthorJDBCImpl();
-        //this.authorRepository = new AuthorMybatisImpl();
+    public AuthorServiceImpl(String type) {
+        this.authorRepository = AuthorRepositoryFactory.createAuthorRepository(type);
     }
 
     @Override
@@ -46,4 +43,9 @@ public class AuthorServiceImpl implements AuthorService {
     public void deleteAuthor(Long id) {
         authorRepository.delete(id);
     }
+
+    public void setAuthorRepository(String type) {
+        this.authorRepository = AuthorRepositoryFactory.createAuthorRepository(type);
+    }
+
 }

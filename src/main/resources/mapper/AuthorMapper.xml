@@ -1,0 +1,36 @@
+<!-- AuthorMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.AuthorRepository">
+
+    <!-- resultMap to map database columns to Author object properties -->
+    <resultMap id="authorResultMap" type="com.solvd.library.domain.Author">
+        <id property="id" column="id_author"/>
+        <result property="name" column="name"/>
+        <result property="nationality" column="nationality"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="authorResultMap">
+        SELECT * FROM authors WHERE id_author = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="authorResultMap">
+        SELECT * FROM authors
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Author">
+        INSERT INTO authors (name, nationality) VALUES (#{author.name}, #{author.nationality})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Author">
+        UPDATE authors SET name = #{author.name}, nationality = #{author.nationality} WHERE id_author = #{author.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM authors WHERE id_author = #{id}
+    </delete>
+</mapper>

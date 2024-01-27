@@ -1,0 +1,35 @@
+<!-- PublisherMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.PublisherRepository">
+
+    <!-- resultMap to map database columns to Publisher object properties -->
+    <resultMap id="publisherResultMap" type="com.solvd.library.domain.Publisher">
+        <id property="id" column="id_publisher"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="publisherResultMap">
+        SELECT * FROM publishers WHERE id_publisher = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="publisherResultMap">
+        SELECT * FROM publishers
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Publisher">
+        INSERT INTO publishers (name) VALUES (#{publisher.name})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Publisher">
+        UPDATE publishers SET name = #{publisher.name} WHERE id_publisher = #{publisher.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM publishers WHERE id_publisher = #{id}
+    </delete>
+</mapper>

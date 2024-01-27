@@ -1,0 +1,196 @@
+{
+  "publishers": [
+    {
+      "id": 1,
+      "name": "ABC Publications",
+      "books": [
+        {
+          "id": 2,
+          "name": "Elantris",
+          "year": "2023-03-03T00:30:00",
+          "publisherId": 1,
+          "categoryId": 1,
+          "reservationId": 1
+        },
+        {
+          "id": 3,
+          "name": "Elephant",
+          "year": "1940-03-03T10:40:00",
+          "publisherId": 1,
+          "categoryId": 2,
+          "reservationId": 3,
+          "inventories": [
+            {
+              "id": 2,
+              "stockQuantity": 5,
+              "bookId": 3,
+              "branchId": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Alpha",
+      "books": [
+        {
+          "id": 1,
+          "name": "The farm",
+          "year": "2023-03-03T00:10:00",
+          "publisherId": 2,
+          "categoryId": 1,
+          "reservationId": 2,
+          "inventories": [
+            {
+              "id": 1,
+              "stockQuantity": 10,
+              "bookId": 1,
+              "branchId": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "reservations": [
+    {
+      "id": 1,
+      "reservationDate": "2023-11-01T10:00:00",
+      "books": [
+        {
+          "id": 2,
+          "name": "Elantris",
+          "year": "2023-03-03T00:30:00",
+          "publisherId": 1,
+          "categoryId": 1,
+          "reservationId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "reservationDate": "2023-02-11T10:22:00",
+      "books": [
+        {
+          "id": 1,
+          "name": "The farm",
+          "year": "2023-03-03T00:10:00",
+          "publisherId": 2,
+          "categoryId": 1,
+          "reservationId": 2,
+          "inventories": [
+            {
+              "id": 1,
+              "stockQuantity": 10,
+              "bookId": 1,
+              "branchId": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "reservationDate": "2023-01-11T11:22:00",
+      "books": [
+        {
+          "id": 3,
+          "name": "Elephant",
+          "year": "1940-03-03T10:40:00",
+          "publisherId": 1,
+          "categoryId": 2,
+          "reservationId": 3,
+          "inventories": [
+            {
+              "id": 2,
+              "stockQuantity": 5,
+              "bookId": 3,
+              "branchId": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Fiction",
+      "books": [
+        {
+          "id": 1,
+          "name": "The farm",
+          "year": "2023-03-03T00:10:00",
+          "publisherId": 2,
+          "categoryId": 1,
+          "reservationId": 2,
+          "inventories": [
+            {
+              "id": 1,
+              "stockQuantity": 10,
+              "bookId": 1,
+              "branchId": 2
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Elantris",
+          "year": "2023-03-03T00:30:00",
+          "publisherId": 1,
+          "categoryId": 1,
+          "reservationId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Fantasy",
+      "books": [
+        {
+          "id": 3,
+          "name": "Elephant",
+          "year": "1940-03-03T10:40:00",
+          "publisherId": 1,
+          "categoryId": 2,
+          "reservationId": 3,
+          "inventories": [
+            {
+              "id": 2,
+              "stockQuantity": 5,
+              "bookId": 3,
+              "branchId": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "branches": [
+    {
+      "id": 1,
+      "location": "United State",
+      "inventories": [
+        {
+          "id": 2,
+          "stockQuantity": 5,
+          "bookId": 3,
+          "branchId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "location": "Argentina",
+      "inventories": [
+        {
+          "id": 1,
+          "stockQuantity": 10,
+          "bookId": 1,
+          "branchId": 2
+        }
+      ]
+    }
+  ]
+}

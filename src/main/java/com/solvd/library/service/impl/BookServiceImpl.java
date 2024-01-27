@@ -50,6 +50,7 @@ public class BookServiceImpl implements BookService {
 
     /** Create the book in the repository and retrieve it.
      * Create and set comments, loans, and inventories associated with the book.
+     * Implements Facade design pattern.
      * @param book
      * @return
      */

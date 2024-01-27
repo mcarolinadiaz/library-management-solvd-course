@@ -1,0 +1,38 @@
+<!-- LoanMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.LoanRepository">
+
+    <!-- resultMap to map database columns to Loan object properties -->
+    <resultMap id="loanResultMap" type="com.solvd.library.domain.Loan">
+        <id property="id" column="id_loan"/>
+        <result property="loanDate" column="loan_date"/>
+        <result property="returnDate" column="return_date"/>
+        <result property="bookId" column="id_book"/>
+        <result property="userId" column="id_user"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="loanResultMap">
+        SELECT * FROM loans WHERE id_loan = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="loanResultMap">
+        SELECT * FROM loans
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Loan">
+        INSERT INTO loans (loan_date, return_date, id_book, id_user) VALUES (#{loan.loanDate}, #{loan.returnDate}, #{loan.bookId}, #{loan.userId})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Loan">
+        UPDATE loans SET loan_date = #{loan.loanDate}, return_date = #{loan.returnDate}, id_book = #{loan.bookId}, id_user = #{loan.userId} WHERE id_loan = #{loan.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM loans WHERE id_loan = #{id}
+    </delete>
+</mapper>

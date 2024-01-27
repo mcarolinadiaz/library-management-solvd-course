@@ -1,0 +1,36 @@
+<!-- BranchMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.BranchRepository">
+
+    <!-- resultMap to map database columns to Branch object properties -->
+    <resultMap id="branchResultMap" type="com.solvd.library.domain.Branch">
+        <id property="id" column="id_branch"/>
+        <result property="location" column="location"/>
+    </resultMap>
+
+    <!-- Select query by ID -->
+    <select id="findById" resultMap="branchResultMap">
+        SELECT * FROM branches WHERE id_branch = #{id}
+    </select>
+
+    <!-- Select query for all branches -->
+    <select id="findAll" resultMap="branchResultMap">
+        SELECT * FROM branches
+    </select>
+
+    <!-- Insert query -->
+    <insert id="create">
+        INSERT INTO branches (location) VALUES (#{branch.location})
+    </insert>
+
+    <!-- Update query -->
+    <update id="update">
+        UPDATE branches SET location = #{branch.location} WHERE id_branch = #{branch.id}
+    </update>
+
+    <!-- Delete query by ID -->
+    <delete id="delete">
+        DELETE FROM branches WHERE id_branch = #{id}
+    </delete>
+
+</mapper>

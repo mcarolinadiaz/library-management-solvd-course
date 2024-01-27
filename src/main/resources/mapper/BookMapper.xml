@@ -1,0 +1,42 @@
+<!-- BookMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.BookRepository">
+
+    <!-- resultMap to map database columns to Book object properties -->
+    <resultMap id="bookResultMap" type="com.solvd.library.domain.Book">
+        <id property="id" column="id_book"/>
+        <result property="name" column="name"/>
+        <result property="year" column="year"/>
+        <result property="publisherId" column="id_publisher"/>
+        <result property="reservationId" column="id_reservation"/>
+        <result property="categoryId" column="id_category"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="bookResultMap">
+        SELECT * FROM books WHERE id_book = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="bookResultMap">
+        SELECT * FROM books
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Book">
+        INSERT INTO books (name, year, id_publisher, id_reservation, id_category)
+        VALUES (#{book.name}, #{book.year, jdbcType=TIMESTAMP}, #{book.publisherId}, #{book.reservationId}, #{book.categoryId})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Book">
+        UPDATE books SET name = #{book.name}, year = #{book.year, jdbcType=TIMESTAMP},
+                         id_publisher = #{book.publisherId}, id_reservation = #{book.reservationId}, id_category = #{book.categoryId}
+        WHERE id_book = #{book.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM books WHERE id_book = #{id}
+    </delete>
+</mapper>

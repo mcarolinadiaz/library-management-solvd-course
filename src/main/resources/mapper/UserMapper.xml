@@ -1,0 +1,36 @@
+<!-- UserMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.UserRepository">
+
+    <!-- resultMap to map database columns to User object properties -->
+    <resultMap id="userResultMap" type="com.solvd.library.domain.User">
+        <id property="id" column="id_user"/>
+        <result property="personId" column="id_person"/>
+        <result property="reservationId" column="id_reservation"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="userResultMap">
+        SELECT * FROM users WHERE id_user = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="userResultMap">
+        SELECT * FROM users
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.User">
+        INSERT INTO users (id_person, id_reservation) VALUES (#{user.personId}, #{user.reservationId})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.User">
+        UPDATE users SET id_person = #{user.personId}, id_reservation = #{user.reservationId} WHERE id_user = #{user.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM users WHERE id_user = #{id}
+    </delete>
+</mapper>
