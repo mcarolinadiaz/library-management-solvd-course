@@ -63,3 +63,14 @@ This design provides a foundation for a library management system with various r
 7-
 - Add Factory, Abstract Factory, Builder, Listener, Facade, Decorator, Proxy, Strategy, MVC patterns to your current project.
 - Refactor code for the current project to satisfy SOLID principles.
+- Solution:
+- Implemented design patterns: Factory, Abstract Factory, Builder, Strategy, Listener, Decorator, and Proxy (using Singleton pattern).
+
+- Factory pattern implemented for creating Author objects dynamically.
+- Abstract Factory pattern used to create families of repository objects.
+- Builder pattern employed for constructing Comment objects step by step.
+- Strategy pattern introduced to make algorithms interchangeable (AuthorJDBCRepository and AuthorMybatisRepository are interchangeabled by AuthorService).
+- Listener pattern applied to notify when a new book is added to the inventory list.
+- Decorator pattern utilized to add additional functionality to book objects dynamically (Book Seller).
+- Proxy pattern integrated with Singleton pattern to provide a surrogate or placeholder for connection pool management.
+- Additionally, pre-existing implementations of Facade and MVC design patterns were retained.
