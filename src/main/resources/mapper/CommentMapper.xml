@@ -1,0 +1,39 @@
+<!-- CommentMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.CommentRepository">
+
+    <!-- resultMap to map database columns to Comment object properties -->
+    <resultMap id="commentResultMap" type="com.solvd.library.domain.Comment">
+        <id property="id" column="id_comment"/>
+        <result property="comment" column="comment"/>
+        <result property="bookId" column="id_book"/>
+        <result property="userId" column="id_user"/>
+    </resultMap>
+
+    <!-- Select query by ID -->
+    <select id="findById" resultMap="commentResultMap">
+        SELECT * FROM comments WHERE id_comment = #{id}
+    </select>
+
+    <!-- Select query for all comments -->
+    <select id="findAll" resultMap="commentResultMap">
+        SELECT * FROM comments
+    </select>
+
+    <!-- Insert query -->
+    <insert id="create">
+        INSERT INTO comments (comment, id_book, id_user) VALUES (#{comment.comment}, #{comment.bookId}, #{comment.userId})
+    </insert>
+
+    <!-- Update query -->
+    <update id="update">
+        UPDATE comments SET comment = #{comment.comment}, id_book = #{comment.bookId}, id_user = #{comment.userId}
+                        WHERE id_comment = #{comment.id}
+    </update>
+
+    <!-- Delete query by ID -->
+    <delete id="delete">
+        DELETE FROM comments WHERE id_comment = #{id}
+    </delete>
+
+</mapper>

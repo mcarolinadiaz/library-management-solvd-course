@@ -2,6 +2,9 @@ package com.solvd.library;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvd.library.domain.*;
+import com.solvd.library.domain.Comment;
+import com.solvd.library.persistence.impl.AbstractRepositoryFactory;
+import com.solvd.library.persistence.impl.RepositoryFactory;
 import com.solvd.library.service.*;
 import com.solvd.library.service.impl.*;
 import jakarta.xml.bind.JAXBContext;
@@ -17,6 +20,7 @@ import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -24,7 +28,7 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
         // Person test
-        /*
+
         Person person = new Person();
         person.setFirstName("Bill");
         person.setLastName("Gates");
@@ -44,7 +48,7 @@ public class Main {
                 person.setId(person3.getId());
             }
         }
-
+/*
         // Author test
         Author author = new Author();
         author.setName("Brandon Sanderson");
@@ -60,7 +64,7 @@ public class Main {
             LOGGER.info(authorService.updateAuthor(a));
             authorService.deleteAuthor(a.getId());
         }
-
+*/
         // Publisher test
         Publisher publisher = new Publisher();
         publisher.setName("Alfaguara");
@@ -94,11 +98,11 @@ public class Main {
                 category.setId(ca.getId());
             }
         }
-
+/*
         // Branch test
         Branch branch = new Branch();
         branch.setLocation("United States");
-        BranchService branchService = new BranchServiceImpl();
+        BranchService branchService = new BranchServiceImpl("Mybatis");
         LOGGER.info(branchService.createBranch(branch).getLocation());
         Collection<Branch> branches = branchService.getAllBranchs();
         for (Branch br : branches) {
@@ -110,7 +114,7 @@ public class Main {
             if (branch.getId() == null && br.getId() != null) {
                 branch.setId(br.getId());
             }
-        }
+        }*/
 
         // Reservation test
         Reservation reservation = new Reservation();
@@ -152,7 +156,7 @@ public class Main {
             }
         }
 
-
+/*
         // Employee test
         Employee employee = new Employee();
         employee.setPersonId(person.getId());
@@ -171,7 +175,7 @@ public class Main {
             e.setBranchId(br1.getId());
             LOGGER.info(employeeService.updateEmployee(e));
             employeeService.deleteEmployee(e.getId());
-        }
+        }*/
 
         // Book test
         Book book = new Book();
@@ -193,7 +197,7 @@ public class Main {
                 book.setId(bo.getId());
             }
         }
-
+/*
         // Inventory test
         Inventory inventory = new Inventory();
         inventory.setBookId(book.getId());
@@ -208,8 +212,8 @@ public class Main {
             in.setStockQuantity(4);
             LOGGER.info(inventoryService.updateInventory(in));
             inventoryService.deleteInventory(in.getId());
-        }
-
+        }*/
+/*
         // Comment test
         Comment comment = new Comment();
         comment.setBookId(book.getId());
@@ -241,8 +245,9 @@ public class Main {
             lo.setReturnDate(new Date());
             LOGGER.info(loanService.updateLoan(lo));
             loanService.deleteLoan(lo.getId());
-        }*/
-
+        }
+        */
+/*
             XMLInputFactory factory = XMLInputFactory.newInstance();
         try (FileInputStream fis = new FileInputStream("src/main/resources/library.xml")) {
             XMLEventReader reader = factory.createXMLEventReader(fis);
@@ -287,6 +292,52 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        */
+        //Factory pattern
+        Author author = new Author();
+        author.setName("Maria Elena Walsh");
+        author.setNationality("Argentina");
+        AuthorServiceImpl authorService = new AuthorServiceImpl("Mybatis");
+        LOGGER.info(authorService.createAuthor(author).getName());
+        LOGGER.info(authorService.getAllAuthors());
+
+        //Abstract factory
+        Branch branch = new Branch();
+        branch.setLocation("United States");
+        BranchService branchService = new BranchServiceImpl("Mybatis");
+        //collect id of the branch
+        Collection<Branch> branches = branchService.getAllBranchs();
+        for (Branch br : branches) {
+            if (branch.getId() == null && br.getId() != null) {
+                branch.setId(br.getId());
+            }
+        }
+
+        //Builder
+        Comment commentDAO = Comment.builder()
+                .comment("Great")
+                .bookId(book.getId())
+                .userId(user.getId())
+                .build();
+        LOGGER.info(commentDAO.getComment());
+
+        //Listener
+        ListenerHolder.subscribe(new BookInventoryListenerImpl());
+
+        Inventory inventory = new Inventory();
+        inventory.setBookId(book.getId());
+        inventory.setBranchId(branch.getId());
+        inventory.setStockQuantity(10);
+        InventoryService inventoryService = new InventoryServiceImpl();
+        LOGGER.info(inventoryService.createInventory(inventory));
+        Collection<Inventory> inventories = inventoryService.getAllInventories();
+        book.setInventories(inventories);
+
+        //Strategy
+        authorService.setAuthorRepository("JDBC");
+
+        //Decorator
+        Book.sellBook(true, false);
 
 
     }

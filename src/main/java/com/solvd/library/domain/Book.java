@@ -2,12 +2,23 @@ package com.solvd.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.solvd.library.domain.decorator.AudioBookDecorator;
+import com.solvd.library.domain.decorator.BookComboSeller;
+import com.solvd.library.domain.decorator.BookSeller;
+import com.solvd.library.domain.decorator.HardCoverDecorator;
+import com.solvd.library.persistence.impl.BookJDBCImpl;
+import com.solvd.library.service.BookInventoryListener;
+import com.solvd.library.service.impl.ListenerHolder;
 import jakarta.xml.bind.annotation.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Book {
+    private static final Logger LOGGER = LogManager.getLogger(Book.class);
     private String name;
     @XmlAttribute(name = "id")
     private Long id;
@@ -92,7 +103,31 @@ public class Book {
         return inventories;
     }
 
-    public void setInventories(List<Inventory> inventories) {
-        this.inventories = inventories;
+    public void setInventories(Collection<Inventory> inventories) {
+        try {
+            for (Inventory inventory : inventories) {
+                ListenerHolder.addBookToInventory(getName(), inventory);
+                if (this.inventories != null) {
+                    this.inventories.add(inventory);
+                }
+            }
+            if (this.inventories == null) {
+                this.inventories = (List<Inventory>) inventories;
+            }
+        } catch(RuntimeException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+    }
+
+    public static void sellBook(boolean audio, boolean hardCover){
+        BookSeller bookSeller = new BookComboSeller();
+        if (audio) {
+            bookSeller = new AudioBookDecorator(bookSeller, 10);
+        }
+        if (hardCover) {
+            bookSeller = new HardCoverDecorator(bookSeller, 15);
+        }
+        bookSeller.sellBook();
     }
 }

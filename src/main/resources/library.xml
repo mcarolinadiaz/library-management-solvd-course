@@ -1,34 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<book>
-    <id_book>1</id_book>
-    <name>The Book Title</name>
-    <year>2023-01-01T00:00:00</year>
-    <id_publisher>1</id_publisher>
-    <id_category>1</id_category>
-    <id_reservation>1</id_reservation>
-
+<library>
     <publishers>
-        <publisher>
-            <id_publisher>1</id_publisher>
+        <publisher id="1">
             <name>ABC Publications</name>
+            <books>
+                <book id="2">
+                    <name>Elantris</name>
+                    <year>2023-03-03T00:30:00</year>
+                    <publisherId>1</publisherId>
+                    <categoryId>1</categoryId>
+                    <reservationId>1</reservationId>
+                </book>
+                <book id="3">
+                    <name>Elephant</name>
+                    <year>1940-03-03T10:40:00</year>
+                    <publisherId>1</publisherId>
+                    <categoryId>2</categoryId>
+                    <reservationId>3</reservationId>
+                    <inventories>
+                        <inventory id="2">
+                            <stockQuantity>5</stockQuantity>
+                            <bookId>3</bookId>
+                            <branchId>1</branchId>
+                        </inventory>
+                    </inventories>
+                </book>
+            </books>
         </publisher>
-        <!-- Add more publisher entries as needed -->
+        <publisher id="2">
+            <name>Alpha</name>
+            <books>
+                <book id="1">
+                    <name>The farm</name>
+                    <year>2023-03-03T00:10:00</year>
+                    <publisherId>2</publisherId>
+                    <categoryId>1</categoryId>
+                    <reservationId>2</reservationId>
+                    <inventories>
+                        <inventory id="1">
+                            <stockQuantity>10</stockQuantity>
+                            <bookId>1</bookId>
+                            <branchId>2</branchId>
+                        </inventory>
+                    </inventories>
+                </book>
+            </books>
+        </publisher>
     </publishers>
 
-    <persons>
-        <person>
-            <id_person>1</id_person>
-            <f_name>John</f_name>
-            <l_name>Doe</l_name>
-        </person>
-        <!-- Add more person entries as needed -->
-    </persons>
+    <reservations>
+        <reservation id="1">
+            <reservationDate>2023-11-01T10:00:00</reservationDate>
+            <books>
+                <book id="2">
+                    <name>Elantris</name>
+                    <year>2023-03-03T00:30:00</year>
+                    <publisherId>1</publisherId>
+                    <categoryId>1</categoryId>
+                    <reservationId>1</reservationId>
+                </book>
+            </books>
+        </reservation>
+        <reservation id="2">
+            <reservationDate>2023-02-11T10:22:00</reservationDate>
+            <books>
+                <book id="1">
+                    <name>The farm</name>
+                    <year>2023-03-03T00:10:00</year>
+                    <publisherId>2</publisherId>
+                    <categoryId>1</categoryId>
+                    <reservationId>2</reservationId>
+                    <inventories>
+                        <inventory id="1">
+                            <stockQuantity>10</stockQuantity>
+                            <bookId>1</bookId>
+                            <branchId>2</branchId>
+                        </inventory>
+                    </inventories>
+                </book>
+            </books>
+        </reservation>
+        <reservation id="3">
+            <reservationDate>2023-01-11T11:22:00</reservationDate>
+            <books>
+                <book id="3">
+                    <name>Elephant</name>
+                    <year>1940-03-03T10:40:00</year>
+                    <publisherId>1</publisherId>
+                    <categoryId>2</categoryId>
+                    <reservationId>3</reservationId>
+                    <inventories>
+                        <inventory id="2">
+                            <stockQuantity>5</stockQuantity>
+                            <bookId>3</bookId>
+                            <branchId>1</branchId>
+                        </inventory>
+                    </inventories>
+                </book>
+            </books>
+        </reservation>
+    </reservations>
 
     <categories>
-        <category>
-            <id_category>1</id_category>
+        <category id="1">
             <name>Fiction</name>
+            <books>
+                <book id="1">
+                    <name>The farm</name>
+                    <year>2023-03-03T00:10:00</year>
+                    <publisherId>2</publisherId>
+                    <categoryId>1</categoryId>
+                    <reservationId>2</reservationId>
+                    <inventories>
+                        <inventory id="1">
+                            <stockQuantity>10</stockQuantity>
+                            <bookId>1</bookId>
+                            <branchId>2</branchId>
+                        </inventory>
+                    </inventories>
+                </book>
+                <book id="2">
+                    <name>Elantris</name>
+                    <year>2023-03-03T00:30:00</year>
+                    <publisherId>1</publisherId>
+                    <categoryId>1</categoryId>
+                    <reservationId>1</reservationId>
+                </book>
+            </books>
         </category>
-        <!-- Add more category entries as needed -->
+        <category id="2">
+            <name>Fantasy</name>
+            <books>
+                <book id="3">
+                    <name>Elephant</name>
+                    <year>1940-03-03T10:40:00</year>
+                    <publisherId>1</publisherId>
+                    <categoryId>2</categoryId>
+                    <reservationId>3</reservationId>
+                    <inventories>
+                        <inventory id="2">
+                            <stockQuantity>5</stockQuantity>
+                            <bookId>3</bookId>
+                            <branchId>1</branchId>
+                        </inventory>
+                    </inventories>
+                </book>
+            </books>
+        </category>
     </categories>
-</book>
+
+    <branches>
+        <branch id="1">
+            <location>United State</location>
+            <inventories>
+                <inventory id="2">
+                    <stockQuantity>5</stockQuantity>
+                    <bookId>3</bookId>
+                    <branchId>1</branchId>
+                </inventory>
+            </inventories>
+        </branch>
+        <branch id="2">
+            <location>Argentina</location>
+            <inventories>
+                <inventory id="1">
+                    <stockQuantity>10</stockQuantity>
+                    <bookId>1</bookId>
+                    <branchId>2</branchId>
+                </inventory>
+            </inventories>
+        </branch>
+    </branches>
+</library>

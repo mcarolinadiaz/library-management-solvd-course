@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Root element for the library -->
+    <xs:element name="library">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="publishers" type="PublishersType"/>
+                <xs:element name="reservations" type="ReservationsType"/>
+                <xs:element name="categories" type="CategoriesType"/>
+                <xs:element name="branches" type="BranchesType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Define complex types for entities -->
+    <xs:complexType name="PublishersType">
+        <xs:sequence>
+            <xs:element name="publisher" type="PublisherType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PublisherType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="books" type="BooksType"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:integer" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="BooksType">
+        <xs:sequence>
+            <xs:element name="book" type="BookType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BookType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="year" type="xs:dateTime"/>
+            <xs:element name="id_publisher" type="xs:integer"/>
+            <xs:element name="id_category" type="xs:integer"/>
+            <xs:element name="id_reservation" type="xs:integer"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:integer" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="ReservationType">
+        <xs:sequence>
+            <xs:element name="year" type="xs:dateTime"/>
+            <xs:element name="books" type="BooksType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReservationsType">
+        <xs:sequence>
+            <xs:element name="reservation" type="ReservationType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BranchType">
+        <xs:sequence>
+            <xs:element name="location" type="xs:string"/>
+            <xs:element name="inventories" type="InventoriesType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="BranchesType">
+        <xs:sequence>
+            <xs:element name="branch" type="BranchType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="InventoryType">
+        <xs:sequence>
+            <xs:element name="stockQuantity" type="xs:integer"/>
+            <xs:element name="books" type="BooksType"/>
+            <xs:element name="branches" type="BranchesType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="InventoriesType">
+        <xs:sequence>
+            <xs:element name="inventory" type="InventoryType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CategoryType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="books" type="BooksType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CategoriesType">
+        <xs:sequence>
+            <xs:element name="category" type="CategoryType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>

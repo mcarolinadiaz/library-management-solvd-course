@@ -1,0 +1,35 @@
+<!-- CategoryMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.CategoryRepository">
+
+    <!-- resultMap to map database columns to Category object properties -->
+    <resultMap id="categoryResultMap" type="com.solvd.library.domain.Category">
+        <id property="id" column="id_category"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="categoryResultMap">
+        SELECT * FROM categories WHERE id_category = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="categoryResultMap">
+        SELECT * FROM categories
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Category">
+        INSERT INTO categories (name) VALUES (#{category.name})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Category">
+        UPDATE categories SET name = #{category.name} WHERE id_category = #{category.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM categories WHERE id_category = #{id}
+    </delete>
+</mapper>

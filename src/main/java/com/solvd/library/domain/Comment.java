@@ -41,4 +41,36 @@ public class Comment {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public static Builder builder() {
+        return new Builder(new Comment());
+    }
+
+    public static class Builder {
+        public final Comment comment;
+        public Builder(Comment comment) {
+            this.comment = comment;
+        }
+
+        public Builder comment(String comment) {
+            this.comment.comment = comment;
+            return this;
+        }
+
+        public Builder bookId(Long bookId) {
+            this.comment.bookId = bookId;
+            return this;
+        }
+
+        public Builder userId(Long userId) {
+            this.comment.userId = userId;
+            return this;
+        }
+
+        public Comment build() {
+            return comment;
+        }
+
+
+    }
 }

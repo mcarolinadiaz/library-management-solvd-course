@@ -1,0 +1,37 @@
+<!-- InventoryMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solvd.library.persistence.InventoryRepository">
+
+    <!-- resultMap to map database columns to Inventory object properties -->
+    <resultMap id="inventoryResultMap" type="com.solvd.library.domain.Inventory">
+        <id property="id" column="id_inventory"/>
+        <result property="stockQuantity" column="stock_quantity"/>
+        <result property="bookId" column="id_book"/>
+        <result property="branchId" column="id_branch"/>
+    </resultMap>
+
+    <!-- Select query by ID with resultMap -->
+    <select id="findById" resultMap="inventoryResultMap">
+        SELECT * FROM inventories WHERE id_inventory = #{id}
+    </select>
+
+    <!-- Select query with resultMap -->
+    <select id="findAll" resultMap="inventoryResultMap">
+        SELECT * FROM inventories
+    </select>
+
+    <!-- Insert query with parameter names -->
+    <insert id="create" parameterType="com.solvd.library.domain.Inventory">
+        INSERT INTO inventories (stock_quantity, id_book, id_branch) VALUES (#{inventory.stockQuantity}, #{inventory.bookId}, #{inventory.branchId})
+    </insert>
+
+    <!-- Update query with parameter names -->
+    <update id="update" parameterType="com.solvd.library.domain.Inventory">
+        UPDATE inventories SET stock_quantity = #{inventory.stockQuantity}, id_book = #{inventory.bookId}, id_branch = #{inventory.branchId} WHERE id_inventory = #{inventory.id}
+    </update>
+
+    <!-- Delete query by ID with parameter names -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM inventories WHERE id_inventory = #{id}
+    </delete>
+</mapper>

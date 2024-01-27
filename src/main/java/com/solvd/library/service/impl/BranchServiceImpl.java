@@ -3,8 +3,10 @@ package com.solvd.library.service.impl;
 
 import com.solvd.library.domain.Branch;
 import com.solvd.library.persistence.BranchRepository;
+import com.solvd.library.persistence.impl.AbstractRepositoryFactory;
 import com.solvd.library.persistence.impl.BranchJDBCImpl;
 import com.solvd.library.persistence.impl.BranchMybatisImpl;
+import com.solvd.library.persistence.impl.RepositoryFactory;
 import com.solvd.library.service.BranchService;
 import com.solvd.library.service.EmployeeService;
 import com.solvd.library.service.InventoryService;
@@ -18,9 +20,11 @@ public class BranchServiceImpl implements BranchService {
     private final EmployeeService employeeService = new EmployeeServiceImpl();
     private final InventoryService inventoryService = new InventoryServiceImpl();
 
-    public BranchServiceImpl() {
-        this.branchRepository = new BranchJDBCImpl();
-        //this.branchRepository = new BranchMybatisImpl();
+    RepositoryFactory factory;
+
+    public BranchServiceImpl(String type) {
+        factory = AbstractRepositoryFactory.createFactoryRepository(type);
+        branchRepository = factory.createBranchRepository();
     }
 
     @Override

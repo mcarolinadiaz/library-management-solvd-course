@@ -1,5 +1,6 @@
 package com.solvd.library.persistence;
 
+import com.solvd.library.persistence.proxy.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,13 +12,26 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 
 
-public class MyConnectionPool {
+public class MyConnectionPool implements ConnectionPool {
+
+    private static MyConnectionPool instance;
     private static final Logger LOGGER = LogManager.getLogger(MyConnectionPool.class);
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/library";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "mysql";
-    private static BlockingQueue<Connection> pool;
+    private static final BlockingQueue<Connection> pool;
     private static final int POOL_SIZE = 12;
+
+    private MyConnectionPool(){
+
+    }
+
+    public static MyConnectionPool getInstance() {
+        if (instance == null){
+            instance = new MyConnectionPool();
+        }
+        return instance;
+    }
 
     static {
         try {
@@ -30,7 +44,7 @@ public class MyConnectionPool {
         }
     }
 
-    public static Connection getConnection() throws InterruptedException {
+    public Connection getConnection() throws InterruptedException {
         LOGGER.info("Get connection");
         return pool.take();
     }

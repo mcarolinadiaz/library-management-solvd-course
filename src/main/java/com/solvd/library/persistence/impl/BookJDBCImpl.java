@@ -26,7 +26,7 @@ public class BookJDBCImpl implements BookRepository {
     static {
         try {
             // Initialize the connection using MyConnectionPool
-            connection = MyConnectionPool.getConnection();
+            connection = MyConnectionPool.getInstance().getConnection();
         } catch (InterruptedException e) {
             // Handle connection initialization exception
             throw new RuntimeException(e);

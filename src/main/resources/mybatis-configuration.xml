@@ -16,6 +16,17 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="org/mybatis/example/BlogMapper.xml"/>
+        <mapper resource="mapper/PersonMapper.xml"/>
+        <mapper resource="mapper/AuthorMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+        <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/PublisherMapper.xml"/>
+        <mapper resource="mapper/BookMapper.xml"/>
+        <mapper resource="mapper/BranchMapper.xml"/>
+        <mapper resource="mapper/CategoryMapper.xml"/>
+        <mapper resource="mapper/CommentMapper.xml"/>
+        <mapper resource="mapper/InventoryMapper.xml"/>
+        <mapper resource="mapper/LoanMapper.xml"/>
+        <mapper resource="mapper/ReservationMapper.xml"/>
     </mappers>
 </configuration>
